@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <script src="../assets/js/color-modes.js"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.122.0">
+  <title>UP! Store | Catalogo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check2" viewBox="0 0 16 16">
+      <path
+        d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+    </symbol>
+    <symbol id="circle-half" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+    </symbol>
+    <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+      <path
+        d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+      <path
+        d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+    </symbol>
+    <symbol id="sun-fill" viewBox="0 0 16 16">
+      <path
+        d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+    </symbol>
+  </svg>
+
+  <div class="position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle z-3 p-5">
+    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+        class="bi bi-caret-up up-arrow" viewBox="0 0 16 16">
+        <path
+          d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659" />
+      </svg></a>
+  </div>
+  <nav class="navbar navbar-dark bg-dark fixed-top navbar-pc" aria-label="Dark offcanvas navbar">
+    <div class="container-fluid">
+      <a href="index.html" class="navbar-brand d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-gem"
+          viewBox="0 0 16 16">
+          <path
+            d="M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6zm11.386 3.785-1.806-2.41-.776 2.413zm-3.633.004.961-2.989H4.186l.963 2.995zM5.47 5.495 8 13.366l2.532-7.876zm-1.371-.999-.78-2.422-1.818 2.425zM1.499 5.5l5.113 6.817-2.192-6.82zm7.889 6.817 5.123-6.83-2.928.002z" />
+        </svg>
+        <strong>UP!Estudio Store</strong>
+      </a>
+      <button class="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark"
+        aria-controls="offcanvasNavbarDark" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbarDark"
+        aria-labelledby="offcanvasNavbarDarkLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">Categorias</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#labios">Labios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#rostro">Rostro</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#ojos">Ojos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#pestañas">Pestañas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#accesorios">Accesorios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Iniciar Sesion</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Contacto
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="https://www.instagram.com/up.estudio_/?hl=es">Instagram</a></li>
+                <li><a class="dropdown-item" href="https://pameulmann.github.io/up-estudio/sobremi.html">Portfolio</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Curso de automaquillaje</a></li>
+                
+              </ul>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+    
+      <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark fixed-top nav-responsive">
+        <div class="container-fluid">
+          <a href="index.html" class="navbar-brand d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-gem"
+              viewBox="0 0 16 16">
+              <path
+                d="M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6zm11.386 3.785-1.806-2.41-.776 2.413zm-3.633.004.961-2.989H4.186l.963 2.995zM5.47 5.495 8 13.366l2.532-7.876zm-1.371-.999-.78-2.422-1.818 2.425zM1.499 5.5l5.113 6.817-2.192-6.82zm7.889 6.817 5.123-6.83-2.928.002z" />
+            </svg>
+            <strong>UP!Estudio Store</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="./index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#labios">Labios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#rostro">Rostro</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#ojos">Ojos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#pestañas">Pestañas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#accesorios">Accesorios</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20asesoramiento%20con%20un%20producto%20del%catalogo."
+                  target="_blank">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+  <main>
+
+    <section id="rostro" class="bk-negro">
+      <h3 class="display-none">Seccion de rostro</h3>
+      <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-4 ">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/basepink21.jpg" class="card-img-top img-cards" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Base Pink 21</h5>
+                <p class="card-text">$4000</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Base%20de%20Pink%2021."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop">Info
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Base%20de%20Pink%2021."
+                          target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/dapop1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Paleta de Rubores Dapop</h5>
+                <p class="card-text">$8073</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Palera%20de%20rubores%20Dapop."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/blushpink21.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Rubor liquido Pink 21</h5>
+                <p class="card-text">$1200</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Rubor%20liquido%20Pink%2021."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+
+
+    </section>
+    <section id="labios" class="display-none">
+      <h3>Seccion de labios</h3>
+      <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-4">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/balsamopola.jpg" class="card-img-top img-cards" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Balsamo Frutal Pola Alyr</h5>
+                <p class="card-text">$2100</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20balsamo%20Frutañ%20Pola%20Alyr."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/osito1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Lip Gloss Osito</h5>
+                <p class="card-text">$3190</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20LipGloss%20llavero%20de%20Osito."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/karitegloss2.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Lip Gloss Karite</h5>
+                <p class="card-text">$2910</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20LipGloss%20de%20Karite."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/delineadorlabios1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Delineador de labios I'Woo</h5>
+                <p class="card-text">$1280</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Delineador%20de%20labios%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/kuromibalsamo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Balsamo Kurumi</h5>
+                <p class="card-text">$950</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20balsamo%20Kurumi."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/labialbeauty.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Labial Beauty Model</h5>
+                <p class="card-text">$3260</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Labial%20de%20Beauty%20Model."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/labialesiwoo1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Labiales Matte Stick I'woo</h5>
+                <p class="card-text">$2985</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Labial%20Matte%20Stick%20de%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/labialtejar.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Labiales Moist Lip Tejar</h5>
+                <p class="card-text">$1450</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Labial%20MoistLip%20de%20Tejar."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/rimocoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Tinta para labios Rimocoo</h5>
+                <p class="card-text">$5490</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Tinta%20Labial%20Rimocoo."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                  data-bs-target="#rImocoo">Info
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="rImocoo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Tinta labial Rimocoo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <blockquote class="instagram-media" data-instgrm-captioned
+                          data-instgrm-permalink="https://www.instagram.com/reel/C7UOVMSOvwY/?utm_source=ig_embed&amp;utm_campaign=loading"
+                          data-instgrm-version="14"
+                          style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                          <div style="padding:16px;"> <a
+                              href="https://www.instagram.com/reel/C7UOVMSOvwY/?utm_source=ig_embed&amp;utm_campaign=loading"
+                              style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;"
+                              target="_blank">
+                              <div style=" display: flex; flex-direction: row; align-items: center;">
+                                <div
+                                  style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;">
+                                </div>
+                                <div
+                                  style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;">
+                                  </div>
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;">
+                                  </div>
+                                </div>
+                              </div>
+                              <div style="padding: 19% 0;"></div>
+                              <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px"
+                                  height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg"
+                                  xmlns:xlink="https://www.w3.org/1999/xlink">
+                                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-511.000000, -20.000000)" fill="#000000">
+                                      <g>
+                                        <path
+                                          d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631">
+                                        </path>
+                                      </g>
+                                    </g>
+                                  </g>
+                                </svg></div>
+                              <div style="padding-top: 8px;">
+                                <div
+                                  style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">
+                                  Ver esta publicación en Instagram</div>
+                              </div>
+                              <div style="padding: 12.5% 0;"></div>
+                              <div
+                                style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+                                <div>
+                                  <div
+                                    style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);">
+                                  </div>
+                                  <div
+                                    style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;">
+                                  </div>
+                                  <div
+                                    style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);">
+                                  </div>
+                                </div>
+                                <div style="margin-left: 8px;">
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;">
+                                  </div>
+                                  <div
+                                    style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)">
+                                  </div>
+                                </div>
+                                <div style="margin-left: auto;">
+                                  <div
+                                    style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);">
+                                  </div>
+                                  <div
+                                    style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);">
+                                  </div>
+                                  <div
+                                    style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);">
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+                                <div
+                                  style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;">
+                                </div>
+                                <div
+                                  style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;">
+                                </div>
+                              </div>
+                            </a>
+                            <p
+                              style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
+                              <a href="https://www.instagram.com/reel/C7UOVMSOvwY/?utm_source=ig_embed&amp;utm_campaign=loading"
+                                style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;"
+                                target="_blank">Una publicación compartida por UP! Estudio (@up.estudio_)</a>
+                            </p>
+                          </div>
+                        </blockquote>
+                        <script async src="//www.instagram.com/embed.js"></script>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Tinta%20Labial%20Rimocoo."
+                          target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/elefante1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Balsamo elefante rosa Pola Alyr</h5>
+                <p class="card-text">$2100</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Balsamo%20de%20elefante%20rosa%20de%20Pola%20Alyr."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="pestañas" class="bk-negro display-none">
+      <h3>Seccion de pestañas</h3>
+      <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-4">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/polaglitter1.jpg" class="card-img-top img-cards" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Mascara de pestañas con glitter Pola Alyr</h5>
+                <p class="card-text">$4500</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Mascara%20de%20pestañas%20con%glitter%20de%20Pola%20Alyr."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/mascaracejas-iwoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Mascara de cejas I'Woo</h5>
+                <p class="card-text">$1820</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Mascara%20de%20cejas%20I'Woo."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/mascaradecesas-rr.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Mascara de cejas Ruby Rose</h5>
+                <p class="card-text">$10618</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20Mascara%20de%20cejas%20Ruby%Rose."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ojos" class="display-none">
+      <h3>Seccion de ojos</h3>
+      <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-4">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/sombraliquida.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Sombra liquida I'woo</h5>
+                <p class="card-text">$4990</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20una%20Sombra%20Liquida%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                  data-bs-target="#sombrasLiquidas">Info
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="sombrasLiquidas" data-bs-backdrop="static" data-bs-keyboard="false"
+                  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <blockquote class="instagram-media" data-instgrm-captioned
+                          data-instgrm-permalink="https://www.instagram.com/reel/C7ctMxEvxZu/?utm_source=ig_embed&amp;utm_campaign=loading"
+                          data-instgrm-version="14"
+                          style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                          <div style="padding:16px;"> <a
+                              href="https://www.instagram.com/reel/C7ctMxEvxZu/?utm_source=ig_embed&amp;utm_campaign=loading"
+                              style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;"
+                              target="_blank">
+                              <div style=" display: flex; flex-direction: row; align-items: center;">
+                                <div
+                                  style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;">
+                                </div>
+                                <div
+                                  style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;">
+                                  </div>
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;">
+                                  </div>
+                                </div>
+                              </div>
+                              <div style="padding: 19% 0;"></div>
+                              <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px"
+                                  height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg"
+                                  xmlns:xlink="https://www.w3.org/1999/xlink">
+                                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-511.000000, -20.000000)" fill="#000000">
+                                      <g>
+                                        <path
+                                          d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631">
+                                        </path>
+                                      </g>
+                                    </g>
+                                  </g>
+                                </svg></div>
+                              <div style="padding-top: 8px;">
+                                <div
+                                  style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">
+                                  Ver esta publicación en Instagram</div>
+                              </div>
+                              <div style="padding: 12.5% 0;"></div>
+                              <div
+                                style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+                                <div>
+                                  <div
+                                    style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);">
+                                  </div>
+                                  <div
+                                    style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;">
+                                  </div>
+                                  <div
+                                    style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);">
+                                  </div>
+                                </div>
+                                <div style="margin-left: 8px;">
+                                  <div
+                                    style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;">
+                                  </div>
+                                  <div
+                                    style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)">
+                                  </div>
+                                </div>
+                                <div style="margin-left: auto;">
+                                  <div
+                                    style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);">
+                                  </div>
+                                  <div
+                                    style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);">
+                                  </div>
+                                  <div
+                                    style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);">
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+                                <div
+                                  style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;">
+                                </div>
+                                <div
+                                  style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;">
+                                </div>
+                              </div>
+                            </a>
+                            <p
+                              style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
+                              <a href="https://www.instagram.com/reel/C7ctMxEvxZu/?utm_source=ig_embed&amp;utm_campaign=loading"
+                                style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;"
+                                target="_blank">Una publicación compartida por UP! Estudio (@up.estudio_)</a>
+                            </p>
+                          </div>
+                        </blockquote>
+
+                        <script async src="//www.instagram.com/embed.js"></script>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20una%20Sombra%20Liquida%20I'Woo."
+                          target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/sombraspink1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Sombras con glitter Pink 21</h5>
+                <p class="card-text">$1190</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20la%20paleta%20de%20Sombras%20con%20glitter%20Pink%2021."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/corrector-iwoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Corrector de ojeras I'Woo</h5>
+                <p class="card-text">$1320</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20el%20Corrector%20de%20ojeras%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/chubbynegro.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Lapiz corrector I'woo</h5>
+                <p class="card-text">$6297</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20LApiz%20corrector%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/chubbyblanco.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Lapiz corrector I'woo</h5>
+                <p class="card-text">$6297</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20LApiz%20corrector%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/delineador-iwooazul.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Delineador fino I'Woo color Azul</h5>
+                <p class="card-text">$4884</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Delineador%20fino%20I'WOO%20color%20azul."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/delineadormetalico1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Delineador metalico I'Woo</h5>
+                <p class="card-text">$3360</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Delineador%20metalico%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/sombrasiwoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Sombras compactas I'Woo</h5>
+                <p class="card-text">$6350</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20las%20Sombras%20compactas%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/lapidesdelin-iwoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Lapiz delineador blanco I'Woo</h5>
+                <p class="card-text">$5430</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Lapiz%20delineador%20blanco%I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/delineadorliquido-iwoo.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Delineador liquido I'Woo</h5>
+                <p class="card-text">$2800</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20delineador%20liquido%20I'WOO."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="accesorios" class="bk-negro display-none">
+      <h3>Seccion de Accesorios</h3>
+      <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-4">
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/fijadorspray.jpg" class="card-img-top img-cards" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Fijador en Spay USHAS</h5>
+                <p class="card-text">$8910</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Fijador%20en%20Spray%20USHAS."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/brochasup1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Set x5 Brochas UP!</h5>
+                <p class="card-text">$5600</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Set%20x5%20Brochas%20UP!."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/esponjas-up.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Set x4 Esponjas UP!</h5>
+                <p class="card-text">$3470</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Set%20x4%20Esponjas%20UP!."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/brochasuprosa.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Set x5 Brochas UP!</h5>
+                <p class="card-text">$5600</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Set%20x5%20Brochas%20UP!."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/brochasuprosa.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Set x2 esponjas Trendy</h5>
+                <p class="card-text">$3600</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20un%20Set%20x2%20Esponjas%20Trendy."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/desmaquillante.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Paños desmaquillantes reutilizables UP!</h5>
+                <p class="card-text">$3240</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20los%20paños%20desmaquillantes%20reutilizabes%20UP!."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="card">
+              <img src="./up-catlog/brochatornasoladaup1.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Brocha tornasolada UP!</h5>
+                <p class="card-text">$3140</p>
+                <a href="https://wa.me/5492915784649?text=Hola,%20me%20gustaría%20comprar%20una%20Brocha%20tornasolada%20UP!."
+                  target="_blank"><button type="button" class="btn btn-outline-success">Comprar</button></a>
+                <button type="button" class="btn btn-outline-secondary">Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-body-secondary py-5">
+
+  </footer>
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
