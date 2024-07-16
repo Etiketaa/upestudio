@@ -131,8 +131,13 @@ nav{
   margin-right: .75rem;
   margin-left: .75rem;
 }
-
-
+/*   Footer   */ 
+footer{
+  margin-top: 10vh;
+  height: 5vh;
+  width: auto;
+  
+}
 /* Featurettes
 ------------------------- */
 
