@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from app.models import db, Usuario
 from flask_login import LoginManager
 
+import logging
+
 load_dotenv()
 
 def create_app():
@@ -13,16 +15,26 @@ def create_app():
                 template_folder='templates',
                 static_folder='static')
     
+    # Configuración de logs para ver errores en Vercel
+    logging.basicConfig(level=logging.INFO)
+    
     # Configuración
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
     
-    # Vercel Postgres URL handling (psycopg2 requires postgresql:// instead of postgres://)
-    db_url = os.getenv('POSTGRES_URL')
-    if db_url and db_url.startswith("postgres://"):
-        db_url = db_url.replace("postgres://", "postgresql://", 1)
+    # Vercel Postgres URL handling
+    db_url = os.getenv('POSTGRES_URL') or os.getenv('DATABASE_URL')
+    if db_url:
+        # Neon requiere postgresql:// y sslmode=require
+        if db_url.startswith("postgres://"):
+            db_url = db_url.replace("postgres://", "postgresql://", 1)
+        if "sslmode=" not in db_url:
+            separator = "&" if "?" in db_url else "?"
+            db_url += f"{separator}sslmode=require"
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///local.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:////tmp/local.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    logging.info(f"Conectando a base de datos: {app.config['SQLALCHEMY_DATABASE_URI'].split('@')[-1]}")
 
     db.init_app(app)
     
