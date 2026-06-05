@@ -33,6 +33,14 @@ def create_app():
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:////tmp/local.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # Optimización para Supabase Transaction Pooler (Puerto 6543)
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "connect_args": {
+            "prepare_threshold": 0  # Desactiva prepared statements para compatibilidad con poolers
+        },
+        "pool_pre_ping": True,       # Verifica la conexión antes de usarla
+    }
 
     logging.info(f"Conectando a base de datos: {app.config['SQLALCHEMY_DATABASE_URI'].split('@')[-1]}")
 
