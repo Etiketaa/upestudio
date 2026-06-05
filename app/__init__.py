@@ -7,7 +7,11 @@ from flask_login import LoginManager
 load_dotenv()
 
 def create_app():
-    app = Flask(__name__)
+    # Vercel fix: Use /tmp for instance_path as the rest of the filesystem is read-only
+    app = Flask(__name__, 
+                instance_path='/tmp',
+                template_folder='templates',
+                static_folder='static')
     
     # Configuración
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
