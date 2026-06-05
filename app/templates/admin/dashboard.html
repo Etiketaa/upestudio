@@ -1,0 +1,72 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block title %}Dashboard - UP! Estudio{% endblock %}
+
+{% block admin_content %}
+<h2>Dashboard</h2>
+<p class="bienvenida">Bienvenida, {{ current_user.nombre }}</p>
+
+<div class="tarjetas">
+    <div class="tarjeta tarjeta-total">
+        <span class="tarjeta-numero">{{ conteos.total }}</span>
+        <span class="tarjeta-label">Total</span>
+    </div>
+    <div class="tarjeta tarjeta-pendientes">
+        <span class="tarjeta-numero">{{ conteos.pendientes }}</span>
+        <span class="tarjeta-label">Pendientes</span>
+    </div>
+    <div class="tarjeta tarjeta-confirmados">
+        <span class="tarjeta-numero">{{ conteos.confirmados }}</span>
+        <span class="tarjeta-label">Confirmados</span>
+    </div>
+    <div class="tarjeta tarjeta-completados">
+        <span class="tarjeta-numero">{{ conteos.completados }}</span>
+        <span class="tarjeta-label">Completados</span>
+    </div>
+    <div class="tarjeta tarjeta-cancelados">
+        <span class="tarjeta-numero">{{ conteos.cancelados }}</span>
+        <span class="tarjeta-label">Cancelados</span>
+    </div>
+</div>
+
+<div class="seccion">
+    <h3>Turnos de hoy ({{ hoy }})</h3>
+
+    {% if not turnos_hoy %}
+        <p class="vacio">No hay turnos para hoy.</p>
+    {% else %}
+        <div class="tabla-responsive">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Cliente</th>
+                        <th>Servicio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in turnos_hoy %}
+                        <tr>
+                            <td>{{ t.hora.strftime('%H:%M') }}</td>
+                            <td>{{ t.nombre }}</td>
+                            <td>{{ t.servicio.nombre if t.servicio else '—' }}</td>
+                            <td><span class="badge badge-{{ t.estado }}">{{ t.estado }}</span></td>
+                            <td class="acciones">
+                                <a href="{{ url_for('admin.change_status', id=t.id, estado='confirmado') }}"
+                                   class="btn-gold btn-sm"
+                                   onclick="return confirm('¿Confirmar turno?')">Confirmar</a>
+                                <a href="{{ url_for('admin.change_status', id=t.id, estado='cancelado') }}"
+                                   class="btn-outline btn-sm"
+                                   onclick="return confirm('¿Cancelar turno?')"
+                                   style="padding:.4rem .9rem;font-size:.65rem">Cancelar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

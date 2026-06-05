@@ -1,0 +1,60 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block title %}Servicios - UP! Estudio{% endblock %}
+
+{% block admin_content %}
+<h2>Servicios</h2>
+
+<div class="form-servicio">
+    <h3>{{ 'Editar servicio' if editar else 'Nuevo servicio' }}</h3>
+    <form method="POST" action="{{ url_for('admin.servicios') }}" class="form-inline">
+        {% if editar %}
+            <input type="hidden" name="id" value="{{ editar.id }}">
+        {% endif %}
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required
+                   value="{{ editar.nombre if editar else '' }}">
+        </div>
+        <div class="campo">
+            <label for="duracion">Duración (min)</label>
+            <input type="number" id="duracion" name="duracion" required min="1"
+                   value="{{ editar.duracion if editar else '' }}">
+        </div>
+        <div class="campo">
+            <label for="precio">Precio ($)</label>
+            <input type="number" id="precio" name="precio" step="0.01" min="0"
+                   value="{{ editar.precio if editar else '' }}">
+        </div>
+        <button type="submit" class="btn-gold btn-sm">{{ 'Actualizar' if editar else 'Crear' }}</button>
+        {% if editar %}
+            <a href="{{ url_for('admin.servicios') }}" class="btn-outline btn-sm" style="padding:.4rem .9rem">Cancelar</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="tabla-responsive">
+    <table class="tabla">
+        <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Duración</th><th>Precio</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+            {% for s in servicios %}
+                <tr>
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.nombre }}</td>
+                    <td>{{ s.duracion }} min</td>
+                    <td>${{ "{:,.0f}".format(s.precio).replace(',', '.') if s.precio else '0' }}</td>
+                    <td class="acciones">
+                        <a href="{{ url_for('admin.servicios', editar_id=s.id) }}" class="btn-gold btn-sm">Editar</a>
+                        <a href="{{ url_for('admin.eliminar_servicio', id=s.id) }}"
+                           class="btn-outline btn-sm"
+                           style="padding:.3rem .7rem;font-size:.6rem;color:#dc3545;border-color:rgba(220,53,69,.3)"
+                           onclick="return confirm('¿Eliminar?')">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

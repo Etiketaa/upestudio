@@ -1,0 +1,83 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block title %}Gestión de Horarios - UP! Estudio{% endblock %}
+
+{% block admin_content %}
+<h2>Gestión de Horarios</h2>
+<p class="bienvenida">Configurá los días y rangos horarios en los que atendés.</p>
+
+<div class="form-servicio" style="margin-bottom: 2rem;">
+    <h3>Agregar horario</h3>
+    <form method="POST" action="{{ url_for('admin.horarios') }}" class="form-inline">
+        <div class="campo">
+            <label for="dia_semana">Día</label>
+            <select id="dia_semana" name="dia_semana" required>
+                <option value="1">Lunes</option>
+                <option value="2">Martes</option>
+                <option value="3">Miércoles</option>
+                <option value="4">Jueves</option>
+                <option value="5">Viernes</option>
+                <option value="6">Sábado</option>
+                <option value="0">Domingo</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="hora_inicio">Desde</label>
+            <input type="time" id="hora_inicio" name="hora_inicio" required>
+        </div>
+        <div class="campo">
+            <label for="hora_fin">Hasta</label>
+            <input type="time" id="hora_fin" name="hora_fin" required>
+        </div>
+        <button type="submit" class="btn-gold btn-sm">Agregar</button>
+    </form>
+</div>
+
+<div class="seccion">
+    <h3>Horarios configurados</h3>
+    {% set dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'] %}
+    
+    {% if not horarios %}
+        <p class="vacio">No hay horarios configurados. Agregá uno arriba para empezar a recibir turnos.</p>
+    {% else %}
+        <div class="tabla-responsive">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Rango Horario</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for h in horarios %}
+                        <tr>
+                            <td><strong>{{ dias[h.dia_semana] }}</strong></td>
+                            <td>{{ h.hora_inicio.strftime('%H:%M') }} - {{ h.hora_fin.strftime('%H:%M') }}</td>
+                            <td>
+                                <span class="badge {{ 'badge-confirmado' if h.activo else 'badge-cancelado' }}">
+                                    {{ 'Activo' if h.activo else 'Inactivo' }}
+                                </span>
+                            </td>
+                            <td class="acciones">
+                                <a href="{{ url_for('admin.toggle_horario', id=h.id) }}" class="btn-gold btn-sm">
+                                    {{ 'Desactivar' if h.activo else 'Activar' }}
+                                </a>
+                                <a href="{{ url_for('admin.eliminar_horario', id=h.id) }}" 
+                                   class="btn-outline btn-sm" 
+                                   style="color:#dc3545;border-color:rgba(220,53,69,.3)"
+                                   onclick="return confirm('¿Eliminar este horario?')">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+
+<div class="note" style="margin-top: 2rem;">
+    <p>💡 <strong>Tip:</strong> Si no trabajás todos los días, simplemente dejá configurados los días que sí atendés. Podés tener múltiples rangos para un mismo día (ej: mañana y tarde).</p>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}UP! Estudio - Tu mejor versión{% endblock %}
+
+{% block content %}
+<nav class="nav-site">
+    <a href="{{ url_for('public.index') }}" class="nav-logo">UP! ESTUDIO</a>
+    <div class="nav-actions">
+        <a href="{{ url_for('public.booking') }}" class="btn-gold" style="padding:.5rem 1.25rem;font-size:.7rem">Reservar turno</a>
+    </div>
+</nav>
+
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-glow1"></div>
+        <div class="hero-glow2"></div>
+        <div class="hero-divider">
+            <div class="hero-divider-line"></div>
+            <span class="hero-divider-text">UP! Estudio</span>
+            <div class="hero-divider-line"></div>
+        </div>
+        <h1>Tu mejor<br><span>versión</span></h1>
+        <p>Servicios de belleza premium diseñados para realzar tu estilo. Reservá tu turno en segundos.</p>
+        <div class="hero-actions">
+            <a href="{{ url_for('public.booking') }}" class="btn-gold">Reservar turno</a>
+            <a href="https://wa.me/{{ config_data.contact_whatsapp }}" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                <svg width="16" height="16" fill="#c9a96e" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                WhatsApp
+            </a>
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-number">+5</div><div class="stat-label">años de experiencia</div></div>
+            <div class="stat"><div class="stat-number">100%</div><div class="stat-label">atención personalizada</div></div>
+            <div class="stat"><div class="stat-number">⭐</div><div class="stat-label">productos premium</div></div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SERVICES -->
+    <section class="section" id="servicios">
+        <div class="section-header">
+            <p class="section-tag">Lo que hago</p>
+            <h2 class="section-title">Mis servicios</h2>
+        </div>
+        <div class="services-grid">
+            {% set iconos = ['💇‍♀️','🎨','✨','💆‍♀️','🧴','🌟'] %}
+            {% for s in servicios %}
+                <div class="service-card" onclick="location='{{ url_for('public.booking', servicio=s.id) }}'">
+                    <div class="service-icon">{{ iconos[loop.index0 % iconos|length] }}</div>
+                    <h3 class="service-name">{{ s.nombre }}</h3>
+                    <p class="service-desc">Servicio profesional de calidad premium con los mejores productos.</p>
+                    <div class="service-footer">
+                        <span class="service-price">${{ "{:,.0f}".format(s.precio).replace(',', '.') }}</span>
+                        <span class="service-duration">{{ s.duracion }} min</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="services-cta">
+            <a href="{{ url_for('public.booking') }}" class="btn-gold">Ver disponibilidad y reservar</a>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SOBRE MÍ -->
+    <section class="section" id="sobre-mi">
+        <div class="section-header">
+            <p class="section-tag">Conocé el estudio</p>
+            <h2 class="section-title">{{ config_data.about_title }}</h2>
+        </div>
+        {% if config_data.about_img %}
+            <div style="text-align:center;margin-bottom:2rem">
+                <img src="{{ config_data.about_img }}" style="max-width:100%;max-height:400px;border-radius:1rem;object-fit:cover">
+            </div>
+        {% endif %}
+        {% if config_data.about_text %}
+            <div style="max-width:700px;margin:0 auto;text-align:center;color:var(--muted);font-size:1rem;line-height:1.8;font-family:var(--accent)">
+                {{ config_data.about_text|nl2br }}
+            </div>
+        {% endif %}
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- GALLERY -->
+    <section class="section">
+        <div class="section-header">
+            <p class="section-tag">Instagram</p>
+            <h2 class="section-title">Mis trabajos</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">✨</div>
+            <div class="gallery-item">💇‍♀️</div>
+            <div class="gallery-item">🎨</div>
+            <div class="gallery-item">💆‍♀️</div>
+            <div class="gallery-item">🌟</div>
+            <div class="gallery-item">🧴</div>
+        </div>
+        <p class="gallery-handle">{{ config_data.contact_instagram }}</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-glow"></div>
+        <p class="section-tag">Reservas online</p>
+        <h2>Lista para tu<br><span>próxima cita?</span></h2>
+        <p>Elegí el servicio, el día y el horario que mejor te quede. Reservá en segundos.</p>
+        <a href="{{ url_for('public.booking') }}" class="btn-gold" style="display:inline-block">Reservar turno</a>
+    </section>
+
+    <footer class="site-footer">
+        <div>
+            <div class="footer-brand">UP! ESTUDIO</div>
+            <div class="footer-info">{{ config_data.contact_direccion }} — {{ config_data.contact_horarios }}</div>
+        </div>
+        <div class="footer-links">
+            <a href="https://wa.me/{{ config_data.contact_whatsapp }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <span>{{ config_data.contact_instagram }}</span>
+        </div>
+    </footer>
+</main>
+{% endblock %}
