@@ -23,15 +23,14 @@ def create_app():
     
     # Database Configuration (Supports Local SQLite and Turso)
     db_url = os.getenv('DATABASE_URL')
+    db_token = os.getenv('DATABASE_AUTH_TOKEN')
     
-    # Si la URL es de Turso (libsql://), SQLAlchemy necesita el driver específico
     if db_url and db_url.startswith("libsql://"):
-        # El driver es sqlite+libsql://
-        db_url = db_url.replace("libsql://", "sqlite+libsql://", 1)
-        # Añadir el token si existe
-        db_token = os.getenv('DATABASE_AUTH_TOKEN')
-        if db_token:
-            db_url = f"{db_url}?auth_token={db_token}"
+        # La librería libsql-experimental-sqlalchemy registra el dialecto 'libsql://'
+        # Solo necesitamos asegurarnos de que el token vaya en la URL si existe
+        if db_token and "auth_token=" not in db_url:
+            separator = "&" if "?" in db_url else "?"
+            db_url = f"{db_url}{separator}auth_token={db_token}"
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///database.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
