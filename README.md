@@ -49,6 +49,25 @@ EVOLUTION_INSTANCE_NAME=...
 - `app/services/`: Clientes para Resend y WhatsApp.
 - `app/templates/`: Vistas Jinja2 con arquitectura de herencia.
 
-## ⚠️ Notas de Mantenimiento
-- Al usar Vercel, el sistema de archivos es de solo lectura. El `instance_path` se redirige a `/tmp` en `app/__init__.py`.
-- El filtro `nl2br` está registrado globalmente en la app para manejar saltos de línea en descripciones desde la DB.
+## 🤖 Instrucciones para el Próximo Agente (IA Context)
+
+### Lógica de Negocio Crítica
+- **Cálculo de Slots (`app/routes/public.py`):** La función `generate_slots` cruza tres fuentes: 
+    1. El día de la semana (`Horario`).
+    2. La duración del `Servicio`.
+    3. Exclusiones por `Bloqueo` (fechas específicas) y `Turno` (ocupados). 
+    *Ojo:* Se utiliza un incremento de 30 min entre slots, ajustable en el bucle `while` de dicha función.
+- **Diferencia de Días:** PHP usa `0=Dom` y Python `0=Lun`. El código en `public.py` ya hace la conversión `(fecha.weekday() + 1) % 7` para ser compatible con el esquema de base de datos original.
+
+### Patrones de Implementación
+- **Seguridad:** Se usa `Flask-Login` para proteger el Blueprint `admin`. Las contraseñas se gestionan con `Werkzeug.security` (scrypt).
+- **Frontend:** Estilos basados en variables CSS de la marca (dorados/negros). Los formularios usan validación nativa de HTML5 + lógica en Python.
+- **Emails:** El servicio en `app/services/resend_mail.py` procesa el template `templates/emails/confirmacion.html` inyectando variables dinámicas de la configuración global.
+
+### 🚩 Roadmap / Tareas Pendientes
+1.  **Edición de "Quiénes Somos":** El Blueprint `admin` ya tiene la ruta `/about`, falta crear el template y la lógica para guardar en la tabla `configuracion`.
+2.  **Dashboard Extendido:** El dashboard actual muestra turnos de hoy; se podría añadir una vista de calendario o historial.
+3.  **Logs de WhatsApp:** Añadir registro en base de datos de si el mensaje de Evolution API se envió con éxito o falló.
+
+---
+*Nota: Este proyecto fue migrado quirúrgicamente de PHP. Evitar reintroducir lógica de archivos `.php` o configuraciones de Apache `.htaccess`.*
