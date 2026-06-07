@@ -5,4 +5,4 @@ python-dotenv==1.0.1
 resend==2.2.0
 requests==2.32.3
 Werkzeug==3.0.3
-libsql-client-sqlalchemy==0.2.1
+libsql-experimental-sqlalchemy
