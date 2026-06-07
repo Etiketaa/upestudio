@@ -5,6 +5,19 @@ from app.models import db, Usuario
 from flask_login import LoginManager
 
 import logging
+import os
+from flask import Flask
+from dotenv import load_dotenv
+from app.models import db, Usuario
+from flask_login import LoginManager
+
+# --- REGISTRO MANUAL DEL DIALECTO DE TURSO ---
+try:
+    from sqlalchemy.dialects import registry
+    registry.register("libsql", "libsql_experimental.sqlalchemy", "LibSQLDialect")
+except ImportError:
+    pass
+# ---------------------------------------------
 
 load_dotenv()
 
@@ -26,8 +39,7 @@ def create_app():
     db_token = os.getenv('DATABASE_AUTH_TOKEN')
     
     if db_url and db_url.startswith("libsql://"):
-        # La librería libsql-experimental-sqlalchemy registra el dialecto 'libsql://'
-        # Solo necesitamos asegurarnos de que el token vaya en la URL si existe
+        # Asegurar que el token vaya en la URL
         if db_token and "auth_token=" not in db_url:
             separator = "&" if "?" in db_url else "?"
             db_url = f"{db_url}{separator}auth_token={db_token}"
