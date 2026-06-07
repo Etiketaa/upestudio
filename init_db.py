@@ -1,6 +1,9 @@
 from app import create_app
 from app.models import db, Usuario, Servicio, Horario, Configuracion
 from datetime import time
+from dotenv import load_dotenv
+
+load_dotenv() # Carga las variables del .env
 
 app = create_app()
 
