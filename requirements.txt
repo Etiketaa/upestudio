@@ -4,4 +4,4 @@ Flask-Login
 python-dotenv
 resend
 requests
-libsql-experimental-sqlalchemy
+libsql-experimental
