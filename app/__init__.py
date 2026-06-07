@@ -21,29 +21,21 @@ def create_app():
     # Configuración
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
     
-    # Vercel Postgres URL handling
-    db_url = os.getenv('POSTGRES_URL') or os.getenv('DATABASE_URL')
-    if db_url:
-        # Neon requiere postgresql:// y sslmode=require
-        if db_url.startswith("postgres://"):
-            db_url = db_url.replace("postgres://", "postgresql://", 1)
-        if "sslmode=" not in db_url:
-            separator = "&" if "?" in db_url else "?"
-            db_url += f"{separator}sslmode=require"
+    # Database Configuration (Supports Local SQLite and Turso)
+    db_url = os.getenv('DATABASE_URL')
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:////tmp/local.db'
+    # Si la URL es de Turso (libsql://), SQLAlchemy necesita el driver específico
+    if db_url and db_url.startswith("libsql://"):
+        # El driver es sqlite+libsql://
+        db_url = db_url.replace("libsql://", "sqlite+libsql://", 1)
+        # Añadir el token si existe
+        db_token = os.getenv('DATABASE_AUTH_TOKEN')
+        if db_token:
+            db_url = f"{db_url}?auth_token={db_token}"
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///database.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Optimización para Supabase Transaction Pooler (Puerto 6543)
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "connect_args": {
-            "prepare_threshold": 0  # Desactiva prepared statements para compatibilidad con poolers
-        },
-        "pool_pre_ping": True,       # Verifica la conexión antes de usarla
-    }
-
-    logging.info(f"Conectando a base de datos: {app.config['SQLALCHEMY_DATABASE_URI'].split('@')[-1]}")
-
     db.init_app(app)
     
     login_manager = LoginManager()
