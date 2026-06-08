@@ -37,7 +37,7 @@ export default function AdminDashboard() {
         `)
         .order("date", { ascending: true })
         .order("time", { ascending: true })
-        .limit(5);
+        .limit(20);
 
       if (appointments) setUpcomingAppointments(appointments);
 
