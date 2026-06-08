@@ -1,0 +1,57 @@
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendConfirmationEmail({
+  email,
+  name,
+  date,
+  time,
+  service
+}: {
+  email: string;
+  name: string;
+  date: string;
+  time: string;
+  service: string;
+}) {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'UP! Estudio <onboarding@resend.dev>', // In production, use your verified domain
+      to: [email],
+      subject: '¡Turno Confirmado! - UP! Estudio',
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background-color: #000; color: #fff; padding: 40px; border-radius: 20px;">
+          <h1 style="color: #b68f35; font-size: 32px; letter-spacing: -1px; margin-bottom: 20px;">UP! ESTUDIO</h1>
+          <p style="font-size: 18px; line-height: 1.6; color: #ccc;">Hola <strong>${name}</strong>,</p>
+          <p style="font-size: 18px; line-height: 1.6; color: #ccc;">Tu turno ha sido confirmado con éxito. ¡Estamos ansiosos por verte!</p>
+          
+          <div style="background-color: #111; padding: 25px; border-radius: 15px; margin: 30px 0; border: 1px solid #222;">
+            <h2 style="margin-top: 0; color: #b68f35; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">Detalles de la cita</h2>
+            <p style="margin: 10px 0; font-size: 16px;"><strong>Servicio:</strong> ${service}</p>
+            <p style="margin: 10px 0; font-size: 16px;"><strong>Fecha:</strong> ${date}</p>
+            <p style="margin: 10px 0; font-size: 16px;"><strong>Horario:</strong> ${time} hs</p>
+          </div>
+
+          <p style="font-size: 14px; color: #666; margin-top: 40px;">
+            Si necesitas cancelar o reprogramar, por favor avisanos con al menos 24 horas de anticipación por WhatsApp.
+          </p>
+          
+          <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #222; text-align: center;">
+            <p style="font-size: 12px; color: #444;">&copy; 2024 UP! ESTUDIO. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      `,
+    });
+
+    if (error) {
+      console.error('Resend error:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Server error sending email:', error);
+    return { success: false, error };
+  }
+}
