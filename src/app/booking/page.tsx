@@ -129,16 +129,26 @@ function BookingContent() {
       <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
         <div className="max-w-md w-full text-center space-y-6">
           <CheckCircle2 className="w-20 h-20 text-gold-500 mx-auto" />
-          <h1 className="text-4xl font-bold tracking-tighter">¡Reserva Confirmada!</h1>
+          <h1 className="text-4xl font-bold tracking-tighter">¡Reserva Registrada!</h1>
           <p className="text-gray-400">
-            Hemos registrado tu turno correctamente. En breve recibirás un email con los detalles de tu cita.
+            Hemos guardado tu turno correctamente. Para finalizar la confirmación, por favor enviá los detalles a nuestro WhatsApp.
           </p>
-          <button 
-            onClick={() => router.push("/")}
-            className="w-full py-4 bg-gold-600 text-black font-bold rounded-xl hover:bg-gold-500 transition-all"
-          >
-            Volver al Inicio
-          </button>
+          <div className="space-y-3">
+            <a 
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-4 bg-[#25D366] text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            >
+              Enviar a WhatsApp
+            </a>
+            <button 
+              onClick={() => router.push("/")}
+              className="w-full py-4 bg-white/5 text-gray-400 font-bold rounded-xl hover:bg-white/10 transition-all"
+            >
+              Volver al Inicio
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -412,6 +422,25 @@ function BookingContent() {
                 </div>
               </form>
             </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-gold-500 font-bold tracking-widest animate-pulse">CARGANDO...</div>
+      </div>
+    }>
+      <BookingContent />
+    </Suspense>
+  );
+}
+           </div>
           </div>
         )}
       </main>
