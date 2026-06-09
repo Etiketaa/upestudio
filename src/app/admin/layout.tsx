@@ -25,6 +25,7 @@ export default function AdminLayout({
 
   const navItems = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { label: "Disponibilidad", href: "/admin/availability", icon: Calendar },
     { label: "Servicios", href: "/admin/services", icon: Scissors },
     { label: "Clientes", href: "/admin/clients", icon: Users },
     { label: "Configuración", href: "/admin/settings", icon: Settings },

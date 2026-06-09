@@ -32,6 +32,11 @@ function BookingContent() {
   const [selectedDate, setSelectedDate] = useState<Date>(addDays(startOfToday(), 1));
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [showTrialOption, setShowTrialOption] = useState(false);
+  const [needsTrial, setNeedsTrial] = useState(false);
+  const [trialDate, setTrialDate] = useState<Date | null>(null);
+  const [trialTime, setTrialTime] = useState<string | null>(null);
+  const [trialSlots, setTrialSlots] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -58,21 +63,71 @@ function BookingContent() {
     fetchServices();
   }, []);
 
+  // Update showTrialOption when service changes
+  useEffect(() => {
+    if (selectedService?.name === "Maquillaje Social") {
+      setShowTrialOption(true);
+    } else {
+      setShowTrialOption(false);
+      setNeedsTrial(false);
+    }
+  }, [selectedService]);
+
   // Calculate available slots when date or service changes
   useEffect(() => {
     if (selectedService && selectedDate) {
-      generateSlots();
+      generateSlots(selectedDate, setAvailableSlots);
     }
   }, [selectedService, selectedDate]);
 
-  const generateSlots = async () => {
-    // In a real app, this would query the DB for existing appointments and schedules
-    // For now, let's simulate some slots
-    const slots = [
-      "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-      "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
-    ];
-    setAvailableSlots(slots);
+  useEffect(() => {
+    if (needsTrial && trialDate) {
+      generateSlots(trialDate, setTrialSlots);
+    }
+  }, [needsTrial, trialDate]);
+
+  const generateSlots = async (date: Date, setter: (slots: string[]) => void) => {
+    const dayOfWeek = date.getDay();
+    const dateStr = format(date, "yyyy-MM-dd");
+
+    // Check for blocks
+    const { data: blocks } = await supabase
+      .from("blocks")
+      .select("*")
+      .eq("date", dateStr);
+
+    if (blocks && blocks.length > 0) {
+      setter([]);
+      return;
+    }
+
+    // Get schedule
+    const { data: schedule } = await supabase
+      .from("schedules")
+      .select("*")
+      .eq("day_of_week", dayOfWeek)
+      .eq("is_active", true)
+      .single();
+
+    if (!schedule) {
+      setter([]);
+      return;
+    }
+
+    // Generate intervals (every 60 mins for simplicity)
+    const slots: string[] = [];
+    let current = schedule.start_time;
+    const end = schedule.end_time;
+
+    while (current < end) {
+      slots.push(current.slice(0, 5));
+      const [h, m] = current.split(":").map(Number);
+      const nextH = h + Math.floor((m + 60) / 60);
+      const nextM = (m + 60) % 60;
+      current = `${String(nextH).padStart(2, "0")}:${String(nextM).padStart(2, "0")}:00`;
+    }
+
+    setter(slots);
   };
 
   const handleBooking = async (e: React.FormEvent) => {
@@ -107,12 +162,26 @@ function BookingContent() {
 
       if (appError) throw appError;
 
+      // 2b. Create Trial Appointment if needed
+      if (needsTrial && trialDate && trialTime) {
+        await supabase
+          .from("appointments")
+          .insert({
+            client_id: clientData.id,
+            service_id: selectedService?.id,
+            date: format(trialDate, "yyyy-MM-dd"),
+            time: trialTime,
+            notes: "ENSAYO / PRUEBA - " + formData.notes,
+          });
+      }
+
       // 3. Prepare WhatsApp Message
       const message = `¡Hola! Soy *${formData.firstName} ${formData.lastName}*. 
 Quisiera confirmar mi turno para:
 ✨ *Servicio:* ${selectedService?.name}
 📅 *Fecha:* ${format(selectedDate, "eeee d 'de' MMMM", { locale: es })}
 ⏰ *Hora:* ${selectedTime} hs
+${needsTrial ? `🧪 *Ensayo:* ${format(trialDate!, "d/MM")} a las ${trialTime} hs` : ""}
 ${formData.notes ? `📝 *Notas:* ${formData.notes}` : ""}
 📱 *Teléfono:* ${formData.phone}
 
@@ -269,7 +338,7 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                 
                 {/* Simplified Calendar - In real app use a full calendar component */}
                 <div className="grid grid-cols-7 gap-2">
-                  {Array(14).fill(0).map((_, i) => {
+                  {Array(21).fill(0).map((_, i) => {
                     const date = addDays(startOfToday(), i + 1);
                     const isSelected = isSameDay(date, selectedDate);
                     return (
@@ -323,7 +392,69 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                   )}
                 </div>
 
-                {selectedTime && (
+                {selectedTime && showTrialOption && (
+                  <div className="mt-8 p-6 bg-gold-600/10 border border-gold-500/20 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="font-bold text-gold-500">¿Deseas sumar un Ensayo/Prueba?</div>
+                      <button 
+                        type="button"
+                        onClick={() => setNeedsTrial(!needsTrial)}
+                        className={cn(
+                          "w-12 h-6 rounded-full transition-all relative",
+                          needsTrial ? "bg-gold-500" : "bg-white/10"
+                        )}
+                      >
+                        <div className={cn(
+                          "absolute top-1 w-4 h-4 bg-black rounded-full transition-all",
+                          needsTrial ? "right-1" : "left-1"
+                        )} />
+                      </button>
+                    </div>
+                    {needsTrial && (
+                      <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
+                        <p className="text-xs text-gray-400">Seleccioná la fecha y hora para tu ensayo previo.</p>
+                        <div className="grid grid-cols-7 gap-1">
+                          {Array(14).fill(0).map((_, i) => {
+                            const date = addDays(startOfToday(), i + 1);
+                            const isSelected = trialDate && isSameDay(date, trialDate);
+                            return (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => setTrialDate(date)}
+                                className={cn(
+                                  "aspect-square flex items-center justify-center rounded-lg text-[10px] transition-all",
+                                  isSelected ? "bg-gold-500 text-black font-bold" : "bg-white/5 border border-white/5"
+                                )}
+                              >
+                                {format(date, "d")}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {trialDate && (
+                          <div className="grid grid-cols-4 gap-2">
+                            {trialSlots.map(t => (
+                              <button
+                                key={t}
+                                type="button"
+                                onClick={() => setTrialTime(t)}
+                                className={cn(
+                                  "py-1.5 rounded-lg border text-[10px] transition-all",
+                                  trialTime === t ? "bg-gold-500 border-gold-500 text-black font-bold" : "bg-white/5 border-white/10"
+                                )}
+                              >
+                                {t}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {selectedTime && (!needsTrial || (trialDate && trialTime)) && (
                   <button
                     onClick={() => setStep(3)}
                     className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gold-500 transition-all flex items-center justify-center gap-2 mt-8"
