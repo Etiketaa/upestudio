@@ -45,7 +45,7 @@ export default function Home() {
                   Reservar Turno
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <a href="https://wa.me/5492915784649" target="_blank" className="px-10 py-4 border border-white/20 hover:border-gold-500 transition-all rounded-full font-bold text-center flex items-center justify-center gap-2">
+                <a href="https://wa.me/542915784649" target="_blank" className="px-10 py-4 border border-white/20 hover:border-gold-500 transition-all rounded-full font-bold text-center flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5 text-gold-500" />
                   WhatsApp
                 </a>
@@ -127,7 +127,7 @@ export default function Home() {
           <div className="text-xl font-bold">UP! ESTUDIO</div>
           <div className="flex gap-8 text-gray-500 text-sm uppercase tracking-widest">
             <a href="#" className="hover:text-gold-500 transition-colors">Instagram</a>
-            <a href="#" className="hover:text-gold-500 transition-colors">WhatsApp</a>
+            <a href="https://wa.me/542915784649" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">WhatsApp</a>
           </div>
           <div className="text-gray-600 text-xs">
             © 2024 UP! ESTUDIO. Todos los derechos reservados.
@@ -137,7 +137,7 @@ export default function Home() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/5491123456789"
+        href="https://wa.me/542915784649"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 right-8 z-50 p-4 bg-[#25D366] text-white rounded-full shadow-2xl shadow-[#25D366]/30 hover:scale-110 active:scale-95 transition-all group"

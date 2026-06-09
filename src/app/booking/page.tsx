@@ -41,6 +41,7 @@ function BookingContent() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState("");
 
   // Fetch services
   useEffect(() => {
@@ -106,7 +107,23 @@ function BookingContent() {
 
       if (appError) throw appError;
 
-      // 3. Send Email via Server Action
+      // 3. Prepare WhatsApp Message
+      const message = `¡Hola! Soy *${formData.firstName} ${formData.lastName}*. 
+Quisiera confirmar mi turno para:
+✨ *Servicio:* ${selectedService?.name}
+📅 *Fecha:* ${format(selectedDate, "eeee d 'de' MMMM", { locale: es })}
+⏰ *Hora:* ${selectedTime} hs
+${formData.notes ? `📝 *Notas:* ${formData.notes}` : ""}
+📱 *Teléfono:* ${formData.phone}
+
+_Enviado desde el sistema de reservas de UP! Estudio_`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const phone = "542915784649"; 
+      const url = `https://wa.me/${phone}?text=${encodedMessage}`;
+      setWhatsappUrl(url);
+
+      // 4. Send Email via Server Action
       await processBookingAction({
         email: formData.email,
         name: formData.firstName,
@@ -116,6 +133,11 @@ function BookingContent() {
       });
 
       setSuccess(true);
+      
+      // Auto redirect to WhatsApp after a short delay
+      setTimeout(() => {
+        window.open(url, "_blank");
+      }, 2000);
     } catch (error) {
       console.error("Error booking:", error);
       alert("Hubo un error al procesar tu reserva. Por favor intenta de nuevo.");
