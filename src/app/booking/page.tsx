@@ -462,22 +462,3 @@ export default function BookingPage() {
     </Suspense>
   );
 }
-           </div>
-          </div>
-        )}
-      </main>
-    </div>
-  );
-}
-
-export default function BookingPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-gold-500 font-bold tracking-widest animate-pulse">CARGANDO...</div>
-      </div>
-    }>
-      <BookingContent />
-    </Suspense>
-  );
-}
