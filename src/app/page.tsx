@@ -50,21 +50,22 @@ export default function Home() {
                   WhatsApp
                 </a>
               </div>
-            </div>
-          </div>
-          
-          <div className="absolute bottom-10 left-6 z-20 hidden lg:flex gap-12">
-            <div>
-              <div className="text-3xl font-bold text-gold-500">+5</div>
-              <div className="text-xs uppercase tracking-widest text-gray-500">Años de Exp.</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-gold-500">100%</div>
-              <div className="text-xs uppercase tracking-widest text-gray-500">Personalizado</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-gold-500">⭐</div>
-              <div className="text-xs uppercase tracking-widest text-gray-500">Premium</div>
+
+              {/* Stats - Adjusted for better responsiveness */}
+              <div className="mt-16 flex gap-12 border-t border-white/10 pt-10">
+                <div>
+                  <div className="text-3xl font-bold text-gold-500">+5</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Años de Exp.</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gold-500">100%</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Personalizado</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gold-500">⭐</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Premium</div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
