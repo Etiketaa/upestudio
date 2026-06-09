@@ -98,7 +98,6 @@ export default function AdminDashboard() {
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Próximos Turnos</h2>
-            <Link href="/admin/appointments" className="text-gold-500 text-sm font-bold hover:underline">Ver todos</Link>
           </div>
 
           <div className="space-y-3">
