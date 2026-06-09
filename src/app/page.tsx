@@ -45,7 +45,7 @@ export default function Home() {
                   Reservar Turno
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <a href="https://wa.me/5491123456789" target="_blank" className="px-10 py-4 border border-white/20 hover:border-gold-500 transition-all rounded-full font-bold text-center flex items-center justify-center gap-2">
+                <a href="https://wa.me/5492915784649" target="_blank" className="px-10 py-4 border border-white/20 hover:border-gold-500 transition-all rounded-full font-bold text-center flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5 text-gold-500" />
                   WhatsApp
                 </a>
