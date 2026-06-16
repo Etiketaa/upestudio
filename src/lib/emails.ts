@@ -33,6 +33,13 @@ export async function sendConfirmationEmail({
             <p style="margin: 10px 0; font-size: 16px;"><strong>Horario:</strong> ${time} hs</p>
           </div>
 
+          <div style="text-align: center; margin: 35px 0;">
+            <a href="https://wa.me/5492915784649?text=${encodeURIComponent(`¡Hola! Soy *${name}*. Quisiera confirmar mi turno de ${service} el día ${date} a las ${time} hs.`)}" 
+               style="background-color: #25D366; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 16px;">
+              Enviar Confirmación por WhatsApp
+            </a>
+          </div>
+
           <p style="font-size: 14px; color: #666; margin-top: 40px;">
             Si necesitas cancelar o reprogramar, por favor avisanos con al menos 24 horas de anticipación por WhatsApp.
           </p>

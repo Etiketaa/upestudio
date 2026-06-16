@@ -18,7 +18,7 @@ export default function SettingsPage() {
           <div className="flex-1">
             <h3 className="font-bold">WhatsApp de Recepción</h3>
             <p className="text-sm text-gray-400">El número al que llegan las notificaciones de los clientes.</p>
-            <div className="mt-2 text-gold-500 font-mono">+54 291 5784649</div>
+            <div className="mt-2 text-gold-500 font-mono">+54 9 291 5784649</div>
           </div>
           <button className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold transition-all">
             Cambiar

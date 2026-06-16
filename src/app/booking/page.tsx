@@ -188,7 +188,7 @@ ${formData.notes ? `📝 *Notas:* ${formData.notes}` : ""}
 _Enviado desde el sistema de reservas de UP! Estudio_`;
 
       const encodedMessage = encodeURIComponent(message);
-      const phone = "542915784649"; 
+      const phone = "5492915784649"; 
       const url = `https://wa.me/${phone}?text=${encodedMessage}`;
       setWhatsappUrl(url);
 
@@ -204,9 +204,10 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
       setSuccess(true);
       
       // Auto redirect to WhatsApp after a short delay
+      // Usamos window.location.href para evitar bloqueadores de popups y mejorar experiencia en móvil
       setTimeout(() => {
-        window.open(url, "_blank");
-      }, 2000);
+        window.location.href = url;
+      }, 1500);
     } catch (error) {
       console.error("Error booking:", error);
       alert("Hubo un error al procesar tu reserva. Por favor intenta de nuevo.");
