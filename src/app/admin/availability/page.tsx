@@ -32,12 +32,13 @@ export default function AvailabilityPage() {
   }
 
   async function updateSchedule(id: string, startTime: string, endTime: string, isActive: boolean) {
+    setSchedules(prev => prev.map(s => s.id === id ? { ...s, start_time: startTime, end_time: endTime, is_active: isActive } : s));
     const { error } = await supabase
       .from("schedules")
       .update({ start_time: startTime, end_time: endTime, is_active: isActive })
       .eq("id", id);
     
-    if (!error) fetchData();
+    if (error) fetchData();
   }
 
   async function addBlock() {
@@ -84,16 +85,16 @@ export default function AvailabilityPage() {
                     <div className="flex items-center gap-4">
                       <input 
                         type="time" 
-                        defaultValue={schedule.start_time.slice(0, 5)} 
+                        value={schedule.start_time.slice(0, 5)} 
                         className="bg-black/40 border border-white/10 rounded px-2 py-1 focus:border-gold-500"
-                        onBlur={(e) => updateSchedule(schedule.id, e.target.value, schedule.end_time, schedule.is_active)}
+                        onChange={(e) => updateSchedule(schedule.id, e.target.value, schedule.end_time, schedule.is_active)}
                       />
                       <span className="text-gray-600">a</span>
                       <input 
                         type="time" 
-                        defaultValue={schedule.end_time.slice(0, 5)} 
+                        value={schedule.end_time.slice(0, 5)} 
                         className="bg-black/40 border border-white/10 rounded px-2 py-1 focus:border-gold-500"
-                        onBlur={(e) => updateSchedule(schedule.id, schedule.start_time, e.target.value, schedule.is_active)}
+                        onChange={(e) => updateSchedule(schedule.id, schedule.start_time, e.target.value, schedule.is_active)}
                       />
                       <button 
                         onClick={() => updateSchedule(schedule.id, schedule.start_time, schedule.end_time, !schedule.is_active)}

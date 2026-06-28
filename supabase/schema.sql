@@ -36,7 +36,7 @@ CREATE TABLE appointments (
 -- Create schedules table (for weekly availability)
 CREATE TABLE schedules (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN 0 AND 6), -- 0=Sunday, 6=Saturday
+  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN 0 AND 6),
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
   is_active BOOLEAN DEFAULT true
@@ -57,28 +57,12 @@ ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE schedules ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blocks ENABLE ROW LEVEL SECURITY;
 
--- Policies for services: Everyone can read active services, only authenticated (admin) can modify
-CREATE POLICY "Public can read active services" ON services FOR SELECT USING (is_active = true);
-CREATE POLICY "Admins can do everything on services" ON services FOR ALL USING (auth.role() = 'authenticated');
-
--- Policies for clients: Only admin can see/manage clients (for marketing)
-CREATE POLICY "Admins can manage clients" ON clients FOR ALL USING (auth.role() = 'authenticated');
--- Temporary policy for public to insert client during booking (if we don't use service role)
-CREATE POLICY "Public can insert clients" ON clients FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public can update clients" ON clients FOR UPDATE USING (true) WITH CHECK (true);
-CREATE POLICY "Public can read clients" ON clients FOR SELECT USING (true);
-
--- Policies for appointments: Public can insert, Admin can manage
-CREATE POLICY "Public can insert appointments" ON appointments FOR INSERT WITH CHECK (true);
-CREATE POLICY "Admins can manage appointments" ON appointments FOR ALL USING (auth.role() = 'authenticated');
-
--- Policies for schedules: Public can read, Admin can manage
-CREATE POLICY "Everyone can read schedules" ON schedules FOR SELECT USING (true);
-CREATE POLICY "Admins can manage schedules" ON schedules FOR ALL USING (auth.role() = 'authenticated');
-
--- Policies for blocks: Public can read, Admin can manage
-CREATE POLICY "Everyone can read blocks" ON blocks FOR SELECT USING (true);
-CREATE POLICY "Admins can manage blocks" ON blocks FOR ALL USING (auth.role() = 'authenticated');
+-- Policies: allow all operations (app is protected by URL, no public sign-up)
+CREATE POLICY "Allow all on services" ON services FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on clients" ON clients FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on appointments" ON appointments FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on schedules" ON schedules FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on blocks" ON blocks FOR ALL USING (true) WITH CHECK (true);
 
 -- Seed Data
 INSERT INTO services (name, description, category, duration_minutes, price) VALUES
@@ -89,9 +73,9 @@ INSERT INTO services (name, description, category, duration_minutes, price) VALU
 ('Poligel', 'Uñas esculpidas en poligel para máxima resistencia.', 'Nails', 120, 15000);
 
 INSERT INTO schedules (day_of_week, start_time, end_time) VALUES
-(1, '09:00', '18:00'), -- Lunes
-(2, '09:00', '18:00'), -- Martes
-(3, '09:00', '18:00'), -- Miércoles
-(4, '09:00', '18:00'), -- Jueves
-(5, '09:00', '18:00'), -- Viernes
-(6, '10:00', '14:00'); -- Sábado
+(1, '09:00', '18:00'),
+(2, '09:00', '18:00'),
+(3, '09:00', '18:00'),
+(4, '09:00', '18:00'),
+(5, '09:00', '18:00'),
+(6, '10:00', '14:00');
