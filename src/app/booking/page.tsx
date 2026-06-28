@@ -300,7 +300,7 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                       )}>
                         {service.category}
                       </span>
-                      <span className="font-bold">{formatCurrency(service.price)}</span>
+                      <span className="font-bold">Desde {formatCurrency(service.price)}</span>
                     </div>
                     <h3 className="text-xl font-bold group-hover:translate-x-1 transition-transform">{service.name}</h3>
                     <p className={cn(
@@ -553,7 +553,7 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                       <div className="flex items-center gap-3 text-sm">
                         <Star className="w-4 h-4 text-gold-500" />
                         <span>{selectedService?.name}</span>
-                        <span className="ml-auto font-bold">{formatCurrency(selectedService?.price || 0)}</span>
+                        <span className="ml-auto font-bold">Desde {formatCurrency(selectedService?.price || 0)}</span>
                       </div>
                       <div className="flex items-center gap-3 text-sm">
                         <CalendarIcon className="w-4 h-4 text-gold-500" />
@@ -565,6 +565,10 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                       </div>
                     </div>
                   </div>
+
+                  <p className="text-xs text-gray-500 text-center">
+                    *Los precios son estimativos y pueden variar según el servicio. Consultá al confirmar tu turno.
+                  </p>
 
                   <button
                     disabled={isSubmitting}

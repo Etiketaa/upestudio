@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    default: "UP! Estudio | Maquillaje y Uñas en Bahía Blanca, Buenos Aires",
     template: "%s | UP! Estudio",
   },
   description:
-    "Servicios de maquillaje social, maquillaje de novias y estética de uñas en Buenos Aires. +7 años de experiencia. Reservá tu turno online.",
+    "Servicios de maquillaje social, maquillaje de novias y estética de uñas en Bahía Blanca, Buenos Aires. +7 años de experiencia. Reservá tu turno online.",
   keywords: [
     "maquillaje",
     "maquillaje social",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "poligel",
     "estética",
     "belleza",
-    "Buenos Aires",
+    "Bahía Blanca, Buenos Aires",
     " Argentina",
   ],
   authors: [{ name: "UP! Estudio" }],
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_AR",
     siteName: "UP! Estudio",
-    title: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    title: "UP! Estudio | Maquillaje y Uñas en Bahía Blanca, Buenos Aires",
     description:
       "Servicios de maquillaje social, maquillaje de novias y estética de uñas. +7 años de experiencia. Reservá tu turno online.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    title: "UP! Estudio | Maquillaje y Uñas en Bahía Blanca, Buenos Aires",
     description:
       "Servicios de maquillaje social, maquillaje de novias y estética de uñas. +7 años de experiencia.",
   },
