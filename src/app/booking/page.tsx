@@ -8,7 +8,7 @@ import { es } from "date-fns/locale";
 import { supabase } from "@/lib/supabase";
 import { cn, formatCurrency } from "@/lib/utils";
 import { processBookingAction } from "@/app/actions";
-import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon, User, CheckCircle2, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon, User, CheckCircle2, Star, X } from "lucide-react";
 
 type Service = {
   id: string;
@@ -29,6 +29,7 @@ function BookingContent() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [modalService, setModalService] = useState<Service | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(addDays(startOfToday(), 1));
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -282,10 +283,7 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                 services.map((service) => (
                   <button
                     key={service.id}
-                    onClick={() => {
-                      setSelectedService(service);
-                      setStep(2);
-                    }}
+                    onClick={() => setModalService(service)}
                     className={cn(
                       "text-left p-6 rounded-2xl border transition-all duration-300 group",
                       selectedService?.id === service.id
@@ -583,6 +581,61 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
           </div>
         )}
       </main>
+
+      {/* Service Detail Modal */}
+      {modalService && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+          <div 
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setModalService(null)}
+          />
+          <div className="relative bg-zinc-900 border border-white/10 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setModalService(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 space-y-6">
+              <div className="space-y-4">
+                <span className="inline-block px-3 py-1 rounded-lg text-xs uppercase tracking-widest font-bold bg-gold-500/20 text-gold-500">
+                  {modalService.category}
+                </span>
+                <h2 className="text-3xl font-bold tracking-tight">{modalService.name}</h2>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                  {modalService.description}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-6 pt-4 border-t border-white/10">
+                <div className="flex items-center gap-2 text-sm">
+                  <Clock className="w-4 h-4 text-gold-500" />
+                  <span className="text-gray-300">{modalService.duration_minutes} minutos</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-400">Desde</span>
+                  <span className="text-xl font-bold text-gold-500">{formatCurrency(modalService.price)}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setSelectedService(modalService);
+                  setModalService(null);
+                  setStep(2);
+                }}
+                className="w-full py-4 bg-gold-600 text-black font-bold rounded-xl hover:bg-gold-500 transition-all text-lg shadow-xl shadow-gold-500/20"
+              >
+                Reservar este servicio
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
