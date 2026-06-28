@@ -65,6 +65,8 @@ CREATE POLICY "Admins can do everything on services" ON services FOR ALL USING (
 CREATE POLICY "Admins can manage clients" ON clients FOR ALL USING (auth.role() = 'authenticated');
 -- Temporary policy for public to insert client during booking (if we don't use service role)
 CREATE POLICY "Public can insert clients" ON clients FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public can update clients" ON clients FOR UPDATE USING (true) WITH CHECK (true);
+CREATE POLICY "Public can read clients" ON clients FOR SELECT USING (true);
 
 -- Policies for appointments: Public can insert, Admin can manage
 CREATE POLICY "Public can insert appointments" ON appointments FOR INSERT WITH CHECK (true);

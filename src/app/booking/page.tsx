@@ -192,14 +192,14 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
       const url = `https://wa.me/${phone}?text=${encodedMessage}`;
       setWhatsappUrl(url);
 
-      // 4. Send Email via Server Action
-      await processBookingAction({
+      // 4. Send Email via Server Action (non-blocking)
+      processBookingAction({
         email: formData.email,
         name: formData.firstName,
         date: format(selectedDate, "eeee d 'de' MMMM", { locale: es }),
         time: selectedTime!,
         service: selectedService?.name || "Servicio",
-      });
+      }).catch((err) => console.error("Email failed (non-critical):", err));
 
       setSuccess(true);
       
