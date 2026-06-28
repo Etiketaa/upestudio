@@ -73,7 +73,7 @@ export default function AdminDashboard() {
     <div className="space-y-10">
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Bienvenida, Dueña</h1>
+          <h1 className="text-4xl font-bold tracking-tight">Bienvenida, Peim</h1>
           <p className="text-gray-400 mt-1">Acá tenés un resumen de lo que está pasando en UP! Estudio.</p>
         </div>
         <div className="text-right">

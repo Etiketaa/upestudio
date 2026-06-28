@@ -127,7 +127,7 @@ export default function Home() {
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-xl font-bold">UP! ESTUDIO</div>
           <div className="flex gap-8 text-gray-500 text-sm uppercase tracking-widest">
-            <a href="#" className="hover:text-gold-500 transition-colors">Instagram</a>
+            <a href="https://www.instagram.com/up.estudio/" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">Instagram</a>
             <a href="https://wa.me/5492915784649" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">WhatsApp</a>
           </div>
           <div className="text-gray-600 text-xs">
