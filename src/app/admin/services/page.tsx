@@ -98,6 +98,12 @@ export default function AdminServices() {
     if (!error) fetchServices();
   }
 
+  async function deleteService(id: string) {
+    if (!confirm("¿Estás segura de que querés eliminar este servicio?")) return;
+    const { error } = await supabase.from("services").delete().eq("id", id);
+    if (!error) fetchServices();
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -203,7 +209,10 @@ export default function AdminServices() {
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
-                        <button className="p-2 hover:bg-white/5 rounded-lg text-gray-400 hover:text-red-500 transition-all">
+                        <button 
+                          onClick={() => deleteService(service.id)}
+                          className="p-2 hover:bg-white/5 rounded-lg text-gray-400 hover:text-red-500 transition-all"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>

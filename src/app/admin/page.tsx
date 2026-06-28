@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   Clock,
   X,
-  Scissors
+  Scissors,
+  Trash2
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
@@ -24,6 +25,12 @@ export default function AdminDashboard() {
   });
   const [upcomingAppointments, setUpcomingAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  async function deleteAppointment(id: string) {
+    if (!confirm("¿Eliminar este turno?")) return;
+    const { error } = await supabase.from("appointments").delete().eq("id", id);
+    if (!error) setUpcomingAppointments(prev => prev.filter(a => a.id !== id));
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -128,6 +135,13 @@ export default function AdminDashboard() {
                     </div>
                     <div className="text-xs text-gray-500 uppercase font-bold tracking-widest">{app.client.phone}</div>
                   </div>
+
+                  <button 
+                    onClick={() => deleteAppointment(app.id)}
+                    className="p-2 text-gray-600 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               ))
             ) : (

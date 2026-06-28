@@ -131,7 +131,7 @@ export default function Home() {
             <a href="https://wa.me/5492915784649" target="_blank" rel="noopener noreferrer" className="hover:text-gold-500 transition-colors">WhatsApp</a>
           </div>
           <div className="text-gray-600 text-xs">
-            © 2024 UP! ESTUDIO. Todos los derechos reservados.
+            © {new Date().getFullYear()} UP! ESTUDIO. Todos los derechos reservados.
           </div>
         </div>
       </footer>

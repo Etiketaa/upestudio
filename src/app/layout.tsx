@@ -13,8 +13,44 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UP! Estudio - Tu mejor versión",
-  description: "Servicios premium de maquillaje y estética de uñas.",
+  title: {
+    default: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    template: "%s | UP! Estudio",
+  },
+  description:
+    "Servicios de maquillaje social, maquillaje de novias y estética de uñas en Buenos Aires. +7 años de experiencia. Reservá tu turno online.",
+  keywords: [
+    "maquillaje",
+    "maquillaje social",
+    "maquillaje de novias",
+    "uñas",
+    "semipermanente",
+    "soft gel",
+    "poligel",
+    "estética",
+    "belleza",
+    "Buenos Aires",
+    " Argentina",
+  ],
+  authors: [{ name: "UP! Estudio" }],
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    siteName: "UP! Estudio",
+    title: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    description:
+      "Servicios de maquillaje social, maquillaje de novias y estética de uñas. +7 años de experiencia. Reservá tu turno online.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UP! Estudio | Maquillaje y Uñas en Buenos Aires",
+    description:
+      "Servicios de maquillaje social, maquillaje de novias y estética de uñas. +7 años de experiencia.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
