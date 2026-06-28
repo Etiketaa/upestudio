@@ -56,15 +56,30 @@ export default function AdminServices() {
   async function handleSave() {
     try {
       if (currentService.id) {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from("services")
-          .update(currentService)
-          .eq("id", currentService.id);
+          .update({
+            name: currentService.name,
+            description: currentService.description,
+            category: currentService.category,
+            duration_minutes: currentService.duration_minutes,
+            price: currentService.price,
+            is_active: currentService.is_active,
+          })
+          .eq("id", currentService.id)
+          .select();
         if (error) throw error;
       } else {
         const { error } = await supabase
           .from("services")
-          .insert([currentService]);
+          .insert([{
+            name: currentService.name,
+            description: currentService.description,
+            category: currentService.category,
+            duration_minutes: currentService.duration_minutes,
+            price: currentService.price,
+            is_active: currentService.is_active,
+          }]);
         if (error) throw error;
       }
       setIsModalOpen(false);

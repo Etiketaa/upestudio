@@ -38,7 +38,7 @@ export default function Home() {
               </h1>
               <p className="text-xl text-gray-400 mb-10 leading-relaxed max-w-lg">
                 Servicios de belleza premium diseñados para realzar tu estilo. 
-                Especialistas en maquillaje social y estética de uñas.
+                Especialista en maquillaje social y estética de uñas.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/booking" className="px-10 py-4 bg-gold-600 text-black hover:bg-gold-500 transition-all rounded-full font-bold text-center group flex items-center justify-center gap-2">
@@ -54,7 +54,7 @@ export default function Home() {
               {/* Stats - Adjusted for better responsiveness */}
               <div className="mt-16 flex gap-12 border-t border-white/10 pt-10">
                 <div>
-                  <div className="text-3xl font-bold text-gold-500">+5</div>
+                  <div className="text-3xl font-bold text-gold-500">+7</div>
                   <div className="text-xs uppercase tracking-widest text-gray-500">Años de Exp.</div>
                 </div>
                 <div>
