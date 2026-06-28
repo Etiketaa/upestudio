@@ -24,7 +24,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative h-[90vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
-          <div className="absolute right-0 top-0 w-1/2 h-full bg-[url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center grayscale opacity-50" />
+          <div className="absolute right-0 top-0 w-1/2 h-full bg-[url('/hero.jpg')] bg-cover bg-center grayscale opacity-50" />
           
           <div className="container mx-auto px-6 relative z-20">
             <div className="max-w-2xl">
