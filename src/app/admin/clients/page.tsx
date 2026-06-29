@@ -8,7 +8,11 @@ import {
   Phone, 
   Calendar,
   Download,
-  Filter
+  Filter,
+  Edit2,
+  Trash2,
+  X,
+  Check
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -26,6 +30,13 @@ export default function AdminClients() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentClient, setCurrentClient] = useState<Partial<Client>>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+  });
 
   useEffect(() => {
     fetchClients();
@@ -40,6 +51,34 @@ export default function AdminClients() {
     
     if (data) setClients(data);
     setLoading(false);
+  }
+
+  async function handleSave() {
+    try {
+      if (currentClient.id) {
+        const { error } = await supabase
+          .from("clients")
+          .update({
+            first_name: currentClient.first_name,
+            last_name: currentClient.last_name,
+            email: currentClient.email,
+            phone: currentClient.phone,
+          })
+          .eq("id", currentClient.id);
+        if (error) throw error;
+      }
+      setIsModalOpen(false);
+      fetchClients();
+    } catch (error) {
+      console.error("Error saving client:", error);
+      alert("Error al guardar el cliente.");
+    }
+  }
+
+  async function deleteClient(id: string) {
+    if (!confirm("¿Estás segura de que querés eliminar este cliente?")) return;
+    const { error } = await supabase.from("clients").delete().eq("id", id);
+    if (!error) fetchClients();
   }
 
   const filteredClients = clients.filter(client => 
@@ -114,13 +153,26 @@ export default function AdminClients() {
               </div>
 
               <div className="pt-4 border-t border-white/5 flex gap-2">
-                <button className="flex-1 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-all">
-                  Ver Historial
+                <button 
+                  onClick={() => {
+                    setCurrentClient(client);
+                    setIsModalOpen(true);
+                  }}
+                  className="flex-1 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                >
+                  <Edit2 className="w-3.5 h-3.5" />
+                  Editar
+                </button>
+                <button 
+                  onClick={() => deleteClient(client.id)}
+                  className="py-2 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-all"
+                >
+                  <Trash2 className="w-4 h-4" />
                 </button>
                 <a 
                   href={`https://wa.me/${client.phone.replace(/\D/g, "")}`}
                   target="_blank"
-                  className="px-4 py-2 bg-green-500/10 text-green-500 hover:bg-green-500/20 rounded-lg transition-all"
+                  className="px-4 py-2 bg-green-500/10 text-green-500 hover:bg-green-500/20 rounded-lg transition-all flex items-center justify-center"
                 >
                   <Phone className="w-4 h-4" />
                 </a>
@@ -133,6 +185,74 @@ export default function AdminClients() {
           </div>
         )}
       </div>
+
+      {/* Modal / Sidepanel for editing */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-end">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <div className="relative w-full max-w-md h-full bg-zinc-900 border-l border-white/5 p-8 overflow-y-auto animate-in slide-in-from-right duration-300">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl font-bold">Editar Cliente</h2>
+              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white/5 rounded-lg">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs uppercase font-bold tracking-widest text-gray-500">Nombre</label>
+                  <input 
+                    type="text" 
+                    value={currentClient.first_name}
+                    onChange={(e) => setCurrentClient({...currentClient, first_name: e.target.value})}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-gold-500 outline-none"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs uppercase font-bold tracking-widest text-gray-500">Apellido</label>
+                  <input 
+                    type="text" 
+                    value={currentClient.last_name}
+                    onChange={(e) => setCurrentClient({...currentClient, last_name: e.target.value})}
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-gold-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs uppercase font-bold tracking-widest text-gray-500">Email</label>
+                <input 
+                  type="email" 
+                  value={currentClient.email}
+                  onChange={(e) => setCurrentClient({...currentClient, email: e.target.value})}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-gold-500 outline-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs uppercase font-bold tracking-widest text-gray-500">Teléfono</label>
+                <input 
+                  type="tel" 
+                  value={currentClient.phone}
+                  onChange={(e) => setCurrentClient({...currentClient, phone: e.target.value})}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-gold-500 outline-none"
+                />
+              </div>
+
+              <div className="pt-6">
+                <button 
+                  onClick={handleSave}
+                  className="w-full py-4 bg-gold-600 text-black font-bold rounded-xl hover:bg-gold-500 transition-all flex items-center justify-center gap-2"
+                >
+                  <Check className="w-5 h-5" />
+                  Guardar Cambios
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
