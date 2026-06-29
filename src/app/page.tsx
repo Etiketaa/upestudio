@@ -75,7 +75,7 @@ export default function Home() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-20">
               <span className="text-gold-500 uppercase tracking-widest text-sm font-semibold">Lo que hago</span>
-              <h2 className="text-5xl font-bold mt-4">Nuestros Servicios</h2>
+              <h2 className="text-5xl font-bold mt-4">Mis Servicios</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
