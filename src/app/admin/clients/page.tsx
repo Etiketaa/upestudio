@@ -6,9 +6,7 @@ import {
   Search, 
   Mail, 
   Phone, 
-  Calendar,
   Download,
-  Filter,
   Edit2,
   Trash2,
   X,
@@ -16,6 +14,8 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useToast } from "@/components/toast";
+import { ConfirmModal } from "@/components/confirm-modal";
 
 type Client = {
   id: string;
@@ -27,10 +27,12 @@ type Client = {
 };
 
 export default function AdminClients() {
+  const { toast } = useToast();
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [currentClient, setCurrentClient] = useState<Partial<Client>>({
     first_name: "",
     last_name: "",
@@ -44,7 +46,7 @@ export default function AdminClients() {
 
   async function fetchClients() {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("clients")
       .select("*")
       .order("created_at", { ascending: false });
@@ -66,22 +68,47 @@ export default function AdminClients() {
           })
           .eq("id", currentClient.id);
         if (error) throw error;
+        toast("Cliente actualizado", "success");
       }
       setIsModalOpen(false);
       fetchClients();
     } catch (error) {
       console.error("Error saving client:", error);
-      alert("Error al guardar el cliente.");
+      toast("Error al guardar el cliente", "error");
     }
   }
 
   async function deleteClient(id: string) {
-    if (!confirm("¿Estás segura de que querés eliminar este cliente?")) return;
     const { error } = await supabase.from("clients").delete().eq("id", id);
-    if (!error) fetchClients();
+    if (!error) {
+      fetchClients();
+      toast("Cliente eliminado", "success");
+    } else {
+      toast("Error al eliminar", "error");
+    }
   }
 
-  const filteredClients = clients.filter(client => 
+  function exportCSV() {
+    const headers = ["Nombre", "Apellido", "Email", "Teléfono", "Fecha de Registro"];
+    const rows = filtered.map(c => [
+      c.first_name,
+      c.last_name,
+      c.email,
+      c.phone,
+      format(new Date(c.created_at), "yyyy-MM-dd"),
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `clientes-${format(new Date(), "yyyy-MM-dd")}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast("CSV exportado correctamente", "success");
+  }
+
+  const filtered = clients.filter(client => 
     `${client.first_name} ${client.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     client.phone.includes(searchTerm)
@@ -95,6 +122,7 @@ export default function AdminClients() {
           <p className="text-gray-400">Total de {clients.length} clientes registrados.</p>
         </div>
         <button 
+          onClick={exportCSV}
           className="bg-white/5 border border-white/10 px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-white/10 transition-all text-sm"
         >
           <Download className="w-4 h-4 text-gold-500" />
@@ -102,22 +130,16 @@ export default function AdminClients() {
         </button>
       </div>
 
-      {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-          <input 
-            type="text" 
-            placeholder="Buscar por nombre, email o teléfono..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-gold-500 transition-colors"
-          />
-        </div>
-        <button className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 text-sm font-bold text-gray-400">
-          <Filter className="w-4 h-4" />
-          Filtros
-        </button>
+      {/* Search */}
+      <div className="relative max-w-md w-full">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+        <input 
+          type="text" 
+          placeholder="Buscar por nombre, email o teléfono..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-gold-500 transition-colors"
+        />
       </div>
 
       {/* Clients Grid */}
@@ -126,8 +148,8 @@ export default function AdminClients() {
           Array(6).fill(0).map((_, i) => (
             <div key={i} className="h-40 bg-white/5 rounded-2xl animate-pulse" />
           ))
-        ) : filteredClients.length > 0 ? (
-          filteredClients.map((client) => (
+        ) : filtered.length > 0 ? (
+          filtered.map((client) => (
             <div key={client.id} className="p-6 bg-white/5 border border-white/5 rounded-2xl space-y-4 hover:border-gold-500/30 transition-all group">
               <div className="flex justify-between items-start">
                 <div className="h-12 w-12 rounded-full bg-gold-600/10 flex items-center justify-center text-gold-500 font-bold text-xl uppercase">
@@ -164,7 +186,7 @@ export default function AdminClients() {
                   Editar
                 </button>
                 <button 
-                  onClick={() => deleteClient(client.id)}
+                  onClick={() => setDeleteId(client.id)}
                   className="py-2 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-all"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -253,6 +275,16 @@ export default function AdminClients() {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteId !== null}
+        onClose={() => setDeleteId(null)}
+        onConfirm={() => { if (deleteId) deleteClient(deleteId); }}
+        title="Eliminar cliente"
+        message="¿Estás segura de que querés eliminar este cliente? Esta acción no se puede deshacer."
+        confirmLabel="Eliminar"
+        variant="danger"
+      />
     </div>
   );
 }

@@ -7,8 +7,7 @@ import { format, addDays, isSameDay, startOfToday, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { supabase } from "@/lib/supabase";
 import { cn, formatCurrency } from "@/lib/utils";
-import { processBookingAction } from "@/app/actions";
-import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon, User, CheckCircle2, Star, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon, User, CheckCircle2, Star, X, AlertTriangle } from "lucide-react";
 
 type Service = {
   id: string;
@@ -17,6 +16,14 @@ type Service = {
   category: string;
   duration_minutes: number;
   price: number;
+};
+
+type BankAccount = {
+  id: string;
+  bank_name: string;
+  account_holder: string;
+  cvu: string;
+  alias: string | null;
 };
 
 function BookingContent() {
@@ -38,6 +45,7 @@ function BookingContent() {
   const [trialDate, setTrialDate] = useState<Date | null>(null);
   const [trialTime, setTrialTime] = useState<string | null>(null);
   const [trialSlots, setTrialSlots] = useState<string[]>([]);
+  const [duplicateError, setDuplicateError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -48,6 +56,24 @@ function BookingContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+
+  // Pre-fill form data from localStorage (session memory)
+  useEffect(() => {
+    const saved = localStorage.getItem("up-booking-data");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({
+          ...prev,
+          firstName: parsed.firstName || prev.firstName,
+          lastName: parsed.lastName || prev.lastName,
+          email: parsed.email || prev.email,
+          phone: parsed.phone || prev.phone,
+        }));
+      } catch {}
+    }
+  }, []);
 
   // Fetch services
   useEffect(() => {
@@ -87,6 +113,19 @@ function BookingContent() {
     }
   }, [needsTrial, trialDate]);
 
+  // Fetch bank accounts when booking is successful
+  useEffect(() => {
+    if (success) {
+      supabase
+        .from("bank_accounts")
+        .select("id, bank_name, account_holder, cvu, alias")
+        .eq("is_active", true)
+        .then(({ data }) => {
+          if (data) setBankAccounts(data);
+        });
+    }
+  }, [success]);
+
   const generateSlots = async (date: Date, setter: (slots: string[]) => void) => {
     const dayOfWeek = date.getDay();
     const dateStr = format(date, "yyyy-MM-dd");
@@ -115,13 +154,24 @@ function BookingContent() {
       return;
     }
 
+    // Get occupied slots for this date
+    const { data: occupied } = await supabase
+      .from("appointments")
+      .select("time")
+      .eq("date", dateStr);
+
+    const occupiedTimes = new Set((occupied || []).map(o => o.time.slice(0, 5)));
+
     // Generate intervals (every 60 mins for simplicity)
     const slots: string[] = [];
     let current = schedule.start_time;
     const end = schedule.end_time;
 
     while (current < end) {
-      slots.push(current.slice(0, 5));
+      const slot = current.slice(0, 5);
+      if (!occupiedTimes.has(slot)) {
+        slots.push(slot);
+      }
       const [h, m] = current.split(":").map(Number);
       const nextH = h + Math.floor((m + 60) / 60);
       const nextM = (m + 60) % 60;
@@ -134,8 +184,23 @@ function BookingContent() {
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setDuplicateError(null);
 
     try {
+      // 0. Check for duplicate appointment
+      const dateStr = format(selectedDate, "yyyy-MM-dd");
+      const { data: existingAppointments } = await supabase
+        .from("appointments")
+        .select("id")
+        .eq("date", dateStr)
+        .eq("time", selectedTime);
+
+      if (existingAppointments && existingAppointments.length > 0) {
+        setDuplicateError("Ya existe un turno reservado para este horario. Por favor elegí otro horario.");
+        setIsSubmitting(false);
+        return;
+      }
+
       // 1. Create/Update Client
       const { data: clientData, error: clientError } = await supabase
         .from("clients")
@@ -149,6 +214,14 @@ function BookingContent() {
         .single();
 
       if (clientError) throw clientError;
+
+      // Save form data for next time
+      localStorage.setItem("up-booking-data", JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+      }));
 
       // 2. Create Appointment
       const { error: appError } = await supabase
@@ -176,15 +249,29 @@ function BookingContent() {
           });
       }
 
-      // 3. Prepare WhatsApp Message
+      // 3. Fetch bank accounts for WhatsApp message
+      const { data: bankData } = await supabase
+        .from("bank_accounts")
+        .select("bank_name, cvu, alias")
+        .eq("is_active", true);
+
+      const sena = (selectedService?.price || 0) * 0.5;
+      const bankInfo = (bankData || []).map(b => 
+        `🏦 *${b.bank_name}*\nCVU: \`${b.cvu}\`${b.alias ? `\nAlias: \`${b.alias}\`` : ""}`
+      ).join("\n\n");
+
+      // 4. Prepare WhatsApp Message
       const message = `¡Hola! Soy *${formData.firstName} ${formData.lastName}*. 
 Quisiera confirmar mi turno para:
 ✨ *Servicio:* ${selectedService?.name}
+💰 *Precio:* ${formatCurrency(selectedService?.price || 0)}
+🔑 *Seña (50%):* ${formatCurrency(sena)}
 📅 *Fecha:* ${format(selectedDate, "eeee d 'de' MMMM", { locale: es })}
 ⏰ *Hora:* ${selectedTime} hs
 ${needsTrial ? `🧪 *Ensayo:* ${format(trialDate!, "d/MM")} a las ${trialTime} hs` : ""}
 ${formData.notes ? `📝 *Notas:* ${formData.notes}` : ""}
 📱 *Teléfono:* ${formData.phone}
+${bankInfo ? `\n💳 *Datos para transferir la seña:*\n${bankInfo}` : ""}
 
 _Enviado desde el sistema de reservas de UP! Estudio_`;
 
@@ -192,15 +279,6 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
       const phone = "5492915784649"; 
       const url = `https://wa.me/${phone}?text=${encodedMessage}`;
       setWhatsappUrl(url);
-
-      // 4. Send Email via Server Action (non-blocking)
-      processBookingAction({
-        email: formData.email,
-        name: formData.firstName,
-        date: format(selectedDate, "eeee d 'de' MMMM", { locale: es }),
-        time: selectedTime!,
-        service: selectedService?.name || "Servicio",
-      }).catch((err) => console.error("Email failed (non-critical):", err));
 
       setSuccess(true);
       
@@ -218,24 +296,89 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
   };
 
   if (success) {
+    const sena = (selectedService?.price || 0) * 0.5;
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
-        <div className="max-w-md w-full text-center space-y-6">
-          <CheckCircle2 className="w-20 h-20 text-gold-500 mx-auto" />
-          <h1 className="text-4xl font-bold tracking-tighter">¡Reserva Registrada!</h1>
-          <p className="text-gray-400">
-            Hemos guardado tu turno correctamente. Para finalizar la confirmación, por favor enviá los detalles a nuestro WhatsApp.
-          </p>
+        <div className="max-w-lg w-full space-y-6">
+          <div className="text-center space-y-4">
+            <CheckCircle2 className="w-16 h-16 text-gold-500 mx-auto" />
+            <h1 className="text-3xl font-bold tracking-tighter">¡Reserva Registrada!</h1>
+            <p className="text-gray-400 text-sm">
+              Tu turno fue guardado correctamente. Para confirmarlo, aboná la seña y enviá el comprobante por WhatsApp.
+            </p>
+          </div>
+
+          {/* Resumen del turno */}
+          <div className="bg-white/5 border border-white/5 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-gold-500 text-xs uppercase tracking-widest">Resumen del turno</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-400">Servicio</span>
+                <span className="font-bold">{selectedService?.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Fecha</span>
+                <span>{format(selectedDate, "eeee d 'de' MMMM", { locale: es })}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Hora</span>
+                <span>{selectedTime} hs</span>
+              </div>
+              <div className="border-t border-white/5 pt-2 mt-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Precio total</span>
+                  <span className="font-bold">{formatCurrency(selectedService?.price || 0)}</span>
+                </div>
+                <div className="flex justify-between text-gold-500">
+                  <span className="font-bold">Seña (50%)</span>
+                  <span className="font-bold text-lg">{formatCurrency(sena)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Datos bancarios */}
+          {bankAccounts.length > 0 && (
+            <div className="bg-gold-600/5 border border-gold-600/10 rounded-2xl p-6 space-y-4">
+              <h3 className="font-bold text-gold-500 text-xs uppercase tracking-widest">Datos para transferir la seña</h3>
+              <div className="space-y-3">
+                {bankAccounts.map((acc) => (
+                  <div key={acc.id} className="bg-black/40 rounded-xl p-4 space-y-2">
+                    <div className="font-bold text-sm">{acc.bank_name}</div>
+                    <div className="text-xs text-gray-400">{acc.account_holder}</div>
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
+                      <div>
+                        <div className="text-[10px] uppercase text-gray-500 font-bold">CVU</div>
+                        <div className="text-sm font-mono text-gold-500">{acc.cvu}</div>
+                      </div>
+                    </div>
+                    {acc.alias && (
+                      <div className="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
+                        <div>
+                          <div className="text-[10px] uppercase text-gray-500 font-bold">Alias</div>
+                          <div className="text-sm font-mono text-gold-500">{acc.alias}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 text-center">
+                Enviá el comprobante de transferencia por WhatsApp para confirmar tu turno.
+              </p>
+            </div>
+          )}
+
           <div className="space-y-3">
-            <a 
+            <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 bg-[#25D366] text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
-              Enviar a WhatsApp
+              Enviar comprobante por WhatsApp
             </a>
-            <button 
+            <button
               onClick={() => router.push("/")}
               className="w-full py-4 bg-white/5 text-gray-400 font-bold rounded-xl hover:bg-white/10 transition-all"
             >
@@ -482,6 +625,13 @@ _Enviado desde el sistema de reservas de UP! Estudio_`;
                 <h2 className="text-3xl font-bold tracking-tight">Tus datos</h2>
                 <p className="text-gray-400">Completá la información para confirmar la reserva.</p>
               </div>
+
+              {duplicateError && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-sm text-red-400 animate-in fade-in">
+                  <AlertTriangle className="w-5 h-5 shrink-0" />
+                  {duplicateError}
+                </div>
+              )}
 
               <form onSubmit={handleBooking} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">

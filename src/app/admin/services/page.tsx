@@ -5,15 +5,15 @@ import { supabase } from "@/lib/supabase";
 import { 
   Plus, 
   Search, 
-  MoreVertical, 
   Edit2, 
   Trash2, 
   Check, 
   X,
-  Clock,
-  Scissors
+  Clock
 } from "lucide-react";
 import { cn, formatCurrency } from "@/lib/utils";
+import { useToast } from "@/components/toast";
+import { ConfirmModal } from "@/components/confirm-modal";
 
 type Service = {
   id: string;
@@ -26,9 +26,12 @@ type Service = {
 };
 
 export default function AdminServices() {
+  const { toast } = useToast();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [currentService, setCurrentService] = useState<Partial<Service>>({
     name: "",
     description: "",
@@ -44,7 +47,7 @@ export default function AdminServices() {
 
   async function fetchServices() {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("services")
       .select("*")
       .order("name");
@@ -56,7 +59,7 @@ export default function AdminServices() {
   async function handleSave() {
     try {
       if (currentService.id) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from("services")
           .update({
             name: currentService.name,
@@ -66,9 +69,9 @@ export default function AdminServices() {
             price: currentService.price,
             is_active: currentService.is_active,
           })
-          .eq("id", currentService.id)
-          .select();
+          .eq("id", currentService.id);
         if (error) throw error;
+        toast("Servicio actualizado", "success");
       } else {
         const { error } = await supabase
           .from("services")
@@ -81,12 +84,13 @@ export default function AdminServices() {
             is_active: currentService.is_active,
           }]);
         if (error) throw error;
+        toast("Servicio creado", "success");
       }
       setIsModalOpen(false);
       fetchServices();
     } catch (error) {
       console.error("Error saving service:", error);
-      alert("Error al guardar el servicio.");
+      toast("Error al guardar el servicio", "error");
     }
   }
 
@@ -95,14 +99,26 @@ export default function AdminServices() {
       .from("services")
       .update({ is_active: !currentStatus })
       .eq("id", id);
-    if (!error) fetchServices();
+    if (!error) {
+      fetchServices();
+      toast(`Servicio ${!currentStatus ? "activado" : "desactivado"}`, "success");
+    }
   }
 
   async function deleteService(id: string) {
-    if (!confirm("¿Estás segura de que querés eliminar este servicio?")) return;
     const { error } = await supabase.from("services").delete().eq("id", id);
-    if (!error) fetchServices();
+    if (!error) {
+      fetchServices();
+      toast("Servicio eliminado", "success");
+    } else {
+      toast("Error al eliminar", "error");
+    }
   }
+
+  const filtered = services.filter(s =>
+    s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-8">
@@ -138,8 +154,13 @@ export default function AdminServices() {
             <input 
               type="text" 
               placeholder="Buscar servicio..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-gold-500 transition-colors"
             />
+          </div>
+          <div className="text-sm text-gray-500">
+            {filtered.length} de {services.length} servicios
           </div>
         </div>
 
@@ -162,8 +183,8 @@ export default function AdminServices() {
                     <td colSpan={6} className="px-6 py-4 h-16 bg-white/[0.02]" />
                   </tr>
                 ))
-              ) : services.length > 0 ? (
-                services.map((service) => (
+              ) : filtered.length > 0 ? (
+                filtered.map((service) => (
                   <tr key={service.id} className="hover:bg-white/[0.02] transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-bold">{service.name}</div>
@@ -210,7 +231,7 @@ export default function AdminServices() {
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button 
-                          onClick={() => deleteService(service.id)}
+                          onClick={() => setDeleteId(service.id)}
                           className="p-2 hover:bg-white/5 rounded-lg text-gray-400 hover:text-red-500 transition-all"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -320,6 +341,16 @@ export default function AdminServices() {
           </div>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteId !== null}
+        onClose={() => setDeleteId(null)}
+        onConfirm={() => { if (deleteId) deleteService(deleteId); }}
+        title="Eliminar servicio"
+        message="¿Estás segura de que querés eliminar este servicio? Esta acción no se puede deshacer."
+        confirmLabel="Eliminar"
+        variant="danger"
+      />
     </div>
   );
 }

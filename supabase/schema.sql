@@ -90,3 +90,33 @@ CREATE POLICY "Admin can manage blocks"
   ON blocks FOR ALL
   USING (auth.uid() IS NOT NULL)
   WITH CHECK (auth.uid() IS NOT NULL);
+
+-- ============================================
+-- BANK ACCOUNTS
+-- ============================================
+-- Tabla para cuentas bancarias del estudio
+
+CREATE TABLE IF NOT EXISTS bank_accounts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  bank_name TEXT NOT NULL,
+  account_holder TEXT NOT NULL,
+  cvu TEXT NOT NULL,
+  alias TEXT,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Limpiar políticas existentes
+DROP POLICY IF EXISTS "Public can read active bank_accounts" ON bank_accounts;
+DROP POLICY IF EXISTS "Admin can manage bank_accounts" ON bank_accounts;
+
+-- Público: solo lee cuentas activas (para booking)
+CREATE POLICY "Public can read active bank_accounts"
+  ON bank_accounts FOR SELECT
+  USING (is_active = true);
+
+-- Admin autenticado: acceso total
+CREATE POLICY "Admin can manage bank_accounts"
+  ON bank_accounts FOR ALL
+  USING (auth.uid() IS NOT NULL)
+  WITH CHECK (auth.uid() IS NOT NULL);

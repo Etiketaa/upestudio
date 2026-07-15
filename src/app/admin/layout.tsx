@@ -9,18 +9,24 @@ import {
   Users, 
   Settings, 
   Scissors, 
+  Clock,
   LogOut,
   Menu,
   X
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { ToastProvider } from "@/components/toast";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  return <ToastProvider><AdminLayoutInner>{children}</AdminLayoutInner></ToastProvider>;
+}
+
+function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
@@ -34,7 +40,9 @@ export default function AdminLayout({
 
   const navItems = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { label: "Disponibilidad", href: "/admin/availability", icon: Calendar },
+    { label: "Turnos", href: "/admin/appointments", icon: Calendar },
+    { label: "Calendario", href: "/admin/calendar", icon: Calendar },
+    { label: "Disponibilidad", href: "/admin/availability", icon: Clock },
     { label: "Servicios", href: "/admin/services", icon: Scissors },
     { label: "Clientes", href: "/admin/clients", icon: Users },
     { label: "Configuración", href: "/admin/settings", icon: Settings },
