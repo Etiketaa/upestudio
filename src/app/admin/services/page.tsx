@@ -121,11 +121,11 @@ export default function AdminServices() {
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Servicios</h1>
-          <p className="text-gray-400">Gestioná los tratamientos que ofrecés en el estudio.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Servicios</h1>
+          <p className="text-gray-400 text-sm">Gestioná los tratamientos que ofrecés en el estudio.</p>
         </div>
         <button 
           onClick={() => {
@@ -139,10 +139,10 @@ export default function AdminServices() {
             });
             setIsModalOpen(true);
           }}
-          className="bg-gold-600 text-black px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-gold-500 transition-all"
+          className="bg-gold-600 text-black px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 hover:bg-gold-500 transition-all text-sm self-start"
         >
-          <Plus className="w-5 h-5" />
-          Nuevo Servicio
+          <Plus className="w-4 h-4" />
+          Nuevo
         </button>
       </div>
 

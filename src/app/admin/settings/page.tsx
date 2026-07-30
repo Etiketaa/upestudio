@@ -121,10 +121,10 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Configuración</h1>
-        <p className="text-gray-400 mt-1">Gestioná las preferencias de tu estudio y de la plataforma.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Configuración</h1>
+        <p className="text-gray-400 text-sm mt-1">Gestioná las preferencias de tu estudio y de la plataforma.</p>
       </div>
 
       {/* General Settings */}

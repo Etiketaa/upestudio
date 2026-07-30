@@ -153,42 +153,36 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-10">
-      <div className="flex justify-between items-end">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Bienvenida, Peim</h1>
-          <p className="text-gray-400 mt-1">Acá tenés un resumen de lo que está pasando en UP! Estudio.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Bienvenida, Peim</h1>
+          <p className="text-gray-400 text-sm mt-1">Acá tenés un resumen de lo que está pasando en UP! Estudio.</p>
         </div>
-        <div className="text-right">
-          <div className="text-sm font-medium text-gold-500 uppercase tracking-widest">Hoy es</div>
-          <div className="text-lg font-bold">{format(new Date(), "eeee d 'de' MMMM", { locale: es })}</div>
+        <div className="sm:text-right">
+          <div className="text-xs font-medium text-gold-500 uppercase tracking-widest">Hoy es</div>
+          <div className="text-sm font-bold">{format(new Date(), "eeee d 'de' MMMM", { locale: es })}</div>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid sm:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-3 sm:gap-4">
         {statCards.map((stat) => (
-          <div key={stat.label} className="p-6 bg-white/5 border border-white/5 rounded-2xl space-y-4">
-            <div className="flex justify-between items-start">
-              <div className={stat.color}>
-                <stat.icon className="w-8 h-8" />
-              </div>
+          <div key={stat.label} className="p-3 sm:p-4 bg-white/5 border border-white/5 rounded-2xl">
+            <div className={cn(stat.color, "mb-2")}>
+              <stat.icon className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <div className="text-3xl font-bold">{stat.value}</div>
-              <div className="text-sm text-gray-500 font-medium uppercase tracking-wider">{stat.label}</div>
-            </div>
+            <div className="text-lg sm:text-2xl font-bold">{stat.value}</div>
+            <div className="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider">{stat.label}</div>
           </div>
         ))}
       </div>
 
       {/* Main Grid */}
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-6">
         {/* Upcoming Appointments */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Próximos Turnos</h2>
-          </div>
+        <div className="lg:col-span-2 space-y-4">
+          <h2 className="text-lg font-bold">Próximos Turnos</h2>
 
           <div className="space-y-3">
             {loading ? (

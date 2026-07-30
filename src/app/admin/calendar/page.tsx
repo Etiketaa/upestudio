@@ -59,15 +59,15 @@ export default function CalendarPage() {
   const selectedAppointments = selectedDay ? getAppointmentsForDay(selectedDay) : [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Calendario</h1>
-        <p className="text-gray-400 mt-1">Vista mensual de todos los turnos.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Calendario</h1>
+        <p className="text-gray-400 text-sm mt-1">Vista mensual de todos los turnos.</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-6">
         {/* Calendar Grid */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 hover:bg-white/5 rounded-lg">
               <ChevronLeft className="w-5 h-5" />
@@ -78,7 +78,7 @@ export default function CalendarPage() {
             </button>
           </div>
 
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
+          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 sm:p-6">
             {/* Day headers */}
             <div className="grid grid-cols-7 gap-1 mb-2">
               {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map(d => (

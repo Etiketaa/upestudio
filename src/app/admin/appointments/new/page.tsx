@@ -129,14 +129,14 @@ export default function NewAppointmentPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="flex items-center gap-4">
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-2 hover:bg-white/5 rounded-lg">
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Nuevo Turno Manual</h1>
-          <p className="text-gray-400">Creá un turno para un cliente existente o nuevo.</p>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nuevo Turno Manual</h1>
+          <p className="text-gray-400 text-sm">Creá un turno para un cliente existente o nuevo.</p>
         </div>
       </div>
 
@@ -188,10 +188,10 @@ export default function NewAppointmentPage() {
             <ChevronLeft className="w-4 h-4" /> Volver a servicios
           </button>
 
-          <div className="grid md:grid-cols-2 gap-10">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-4">
               <h3 className="text-xl font-bold">Elegí la fecha</h3>
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 gap-1 sm:gap-2">
                 {Array(21).fill(0).map((_, i) => {
                   const date = addDays(startOfToday(), i + 1);
                   const isSelected = isSameDay(date, selectedDate);
