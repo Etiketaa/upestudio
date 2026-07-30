@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eval Review - Skill Triggering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .description-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        .query-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .query-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .query-item.should-trigger {
+            border-left: 4px solid #27ae60;
+        }
+        .query-item.should-not-trigger {
+            border-left: 4px solid #e74c3c;
+        }
+        .query-text {
+            flex: 1;
+        }
+        .query-label {
+            font-size: 0.8em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        .label-trigger {
+            background: #d4edda;
+            color: #155724;
+        }
+        .label-no-trigger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .btn-primary {
+            background: #3498db;
+            color: #fff;
+        }
+        .btn-secondary {
+            background: #95a5a6;
+            color: #fff;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Eval Review</h1>
+            <p>Review trigger queries for your skill description</p>
+        </header>
+        
+        <div class="description-box">
+            <strong>Current Description:</strong>
+            <p id="description">{{DESCRIPTION}}</p>
+        </div>
+        
+        <div class="query-section">
+            <h2>Should Trigger</h2>
+            <div id="should-trigger">
+                <!-- Populated by script -->
+            </div>
+        </div>
+        
+        <div class="query-section">
+            <h2>Should NOT Trigger</h2>
+            <div id="should-not-trigger">
+                <!-- Populated by script -->
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="trigger-count">0/0</div>
+                <div>Should Trigger</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="no-trigger-count">0/0</div>
+                <div>Should NOT Trigger</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="btn btn-primary" onclick="approve()">Approve</button>
+        <button class="btn btn-secondary" onclick="reject()">Reject</button>
+    </div>
+    
+    <script>
+        // Sample data - replace with actual eval data
+        const evalData = {
+            should_trigger: [
+                "Create a skill for reviewing Python code",
+                "I need a skill that checks for security vulnerabilities",
+                "Make a skill to audit code quality",
+                "Turn this workflow into a reusable skill"
+            ],
+            should_not_trigger: [
+                "Help me write Python code",
+                "What's the best IDE for Python?",
+                "How do I install Python?",
+                "Debug this Python script"
+            ]
+        };
+        
+        // Populate queries
+        function populateQueries() {
+            const shouldTrigger = document.getElementById('should-trigger');
+            const shouldNotTrigger = document.getElementById('should-not-trigger');
+            
+            evalData.should_trigger.forEach(query => {
+                shouldTrigger.innerHTML += `
+                    <div class="query-item should-trigger">
+                        <span class="query-text">${query}</span>
+                        <span class="query-label label-trigger">Should Trigger</span>
+                    </div>
+                `;
+            });
+            
+            evalData.should_not_trigger.forEach(query => {
+                shouldNotTrigger.innerHTML += `
+                    <div class="query-item should-not-trigger">
+                        <span class="query-text">${query}</span>
+                        <span class="query-label label-no-trigger">Should NOT Trigger</span>
+                    </div>
+                `;
+            });
+            
+            // Update counts
+            document.getElementById('trigger-count').textContent = 
+                `${evalData.should_trigger.length}/${evalData.should_trigger.length}`;
+            document.getElementById('no-trigger-count').textContent = 
+                `${evalData.should_not_trigger.length}/${evalData.should_not_trigger.length}`;
+        }
+        
+        function approve() {
+            alert('Description approved!');
+            // Could save to file or send to parent window
+        }
+        
+        function reject() {
+            alert('Description rejected. Please modify and try again.');
+        }
+        
+        // Initialize
+        populateQueries();
+    </script>
+</body>
+</html>

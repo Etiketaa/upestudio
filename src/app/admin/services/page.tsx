@@ -148,7 +148,7 @@ export default function AdminServices() {
 
       {/* Services List */}
       <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-white/5 flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="relative max-w-sm w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input 
@@ -169,10 +169,10 @@ export default function AdminServices() {
             <thead>
               <tr className="text-xs uppercase tracking-widest text-gray-500 border-b border-white/5">
                 <th className="px-6 py-4 font-bold">Servicio</th>
-                <th className="px-6 py-4 font-bold">Categoría</th>
-                <th className="px-6 py-4 font-bold">Duración</th>
+                <th className="px-6 py-4 font-bold hidden sm:table-cell">Categoría</th>
+                <th className="px-6 py-4 font-bold hidden sm:table-cell">Duración</th>
                 <th className="px-6 py-4 font-bold">Precio</th>
-                <th className="px-6 py-4 font-bold">Estado</th>
+                <th className="px-6 py-4 font-bold hidden sm:table-cell">Estado</th>
                 <th className="px-6 py-4 font-bold text-right">Acciones</th>
               </tr>
             </thead>
@@ -190,7 +190,7 @@ export default function AdminServices() {
                       <div className="font-bold">{service.name}</div>
                       <div className="text-xs text-gray-500 line-clamp-1">{service.description}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 hidden sm:table-cell">
                       <span className={cn(
                         "px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider",
                         service.category === "Maquillaje" ? "bg-pink-500/10 text-pink-500" : "bg-blue-500/10 text-blue-500"
@@ -198,14 +198,14 @@ export default function AdminServices() {
                         {service.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm flex items-center gap-1.5 text-gray-400">
+                    <td className="px-6 py-4 text-sm flex items-center gap-1.5 text-gray-400 hidden sm:table-cell">
                       <Clock className="w-3.5 h-3.5" />
                       {service.duration_minutes} min
                     </td>
                     <td className="px-6 py-4 font-bold text-gold-500">
                       {formatCurrency(service.price)}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 hidden sm:table-cell">
                       <button 
                         onClick={() => toggleStatus(service.id, service.is_active)}
                         className={cn(
