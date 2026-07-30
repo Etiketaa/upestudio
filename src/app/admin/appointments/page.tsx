@@ -178,42 +178,42 @@ export default function AppointmentsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="text-xs uppercase tracking-widest text-gray-500 border-b border-white/5">
-                <th className="px-6 py-4 font-bold">Fecha / Hora</th>
-                <th className="px-6 py-4 font-bold">Cliente</th>
-                <th className="px-6 py-4 font-bold">Servicio</th>
-                <th className="px-6 py-4 font-bold">Precio</th>
-                <th className="px-6 py-4 font-bold">Notas</th>
-                <th className="px-6 py-4 font-bold text-right">Acciones</th>
+              <tr className="text-[10px] sm:text-xs uppercase tracking-widest text-gray-500 border-b border-white/5">
+                <th className="px-3 sm:px-6 py-3 font-bold">Turno</th>
+                <th className="px-3 sm:px-6 py-3 font-bold">Cliente</th>
+                <th className="px-3 sm:px-6 py-3 font-bold hidden sm:table-cell">Servicio</th>
+                <th className="px-3 sm:px-6 py-3 font-bold hidden md:table-cell">Precio</th>
+                <th className="px-3 sm:px-6 py-3 font-bold hidden lg:table-cell">Notas</th>
+                <th className="px-3 sm:px-6 py-3 font-bold text-right">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {loading ? (
                 Array(5).fill(0).map((_, i) => (
                   <tr key={i} className="animate-pulse">
-                    <td colSpan={6} className="px-6 py-4 h-16 bg-white/[0.02]" />
+                    <td colSpan={6} className="px-3 sm:px-6 py-3 h-14 bg-white/[0.02]" />
                   </tr>
                 ))
               ) : filtered.length > 0 ? (
                 filtered.map(a => (
                   <tr key={a.id} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col items-center justify-center h-12 w-12 bg-gold-600/10 text-gold-500 rounded-xl font-bold text-sm">
-                          <Calendar className="w-3 h-3" />
-                          <span className="text-xs leading-none mt-0.5">{format(new Date(a.date + "T00:00:00"), "d/M")}</span>
+                    <td className="px-3 sm:px-6 py-3">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="flex flex-col items-center justify-center h-9 w-9 sm:h-12 sm:w-12 bg-gold-600/10 text-gold-500 rounded-xl font-bold text-xs sm:text-sm shrink-0">
+                          <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                          <span className="text-[10px] sm:text-xs leading-none mt-0.5">{format(new Date(a.date + "T00:00:00"), "d/M")}</span>
                         </div>
                         <div>
-                          <div className="font-bold">{a.time.slice(0, 5)}</div>
-                          <div className="text-xs text-gray-500">{format(new Date(a.date + "T00:00:00"), "EEEE", { locale: es })}</div>
+                          <div className="font-bold text-sm">{a.time.slice(0, 5)}</div>
+                          <div className="text-[10px] sm:text-xs text-gray-500">{format(new Date(a.date + "T00:00:00"), "EEE", { locale: es })}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="font-bold">{a.client?.first_name} {a.client?.last_name}</div>
-                      <div className="text-xs text-gray-500">{a.client?.phone}</div>
+                    <td className="px-3 sm:px-6 py-3">
+                      <div className="font-bold text-sm">{a.client?.first_name} {a.client?.last_name}</div>
+                      <div className="text-[10px] sm:text-xs text-gray-500">{a.client?.phone}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3 hidden sm:table-cell">
                       <span className={cn(
                         "px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider",
                         a.service?.category === "Maquillaje" ? "bg-pink-500/10 text-pink-500" : "bg-blue-500/10 text-blue-500"
@@ -221,16 +221,16 @@ export default function AppointmentsPage() {
                         {a.service?.name}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-bold text-gold-500">
+                    <td className="px-3 sm:px-6 py-3 font-bold text-gold-500 hidden md:table-cell">
                       {formatCurrency(a.service?.price || 0)}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-400 max-w-[200px] truncate">
+                    <td className="px-3 sm:px-6 py-3 text-sm text-gray-400 max-w-[150px] truncate hidden lg:table-cell">
                       {a.notes || "—"}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-3 sm:px-6 py-3 text-right">
                       <button
                         onClick={() => setDeleteId(a.id)}
-                        className="p-2 text-gray-600 hover:text-red-500 transition-colors"
+                        className="p-1.5 sm:p-2 text-gray-600 hover:text-red-500 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -239,7 +239,7 @@ export default function AppointmentsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500 italic">
+                  <td colSpan={6} className="px-3 sm:px-6 py-10 text-center text-gray-500 italic text-sm">
                     No se encontraron turnos.
                   </td>
                 </tr>
