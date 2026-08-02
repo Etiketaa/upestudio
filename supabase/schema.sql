@@ -120,3 +120,23 @@ CREATE POLICY "Admin can manage bank_accounts"
   ON bank_accounts FOR ALL
   USING (auth.uid() IS NOT NULL)
   WITH CHECK (auth.uid() IS NOT NULL);
+
+-- ============================================
+-- TICKETS
+-- ============================================
+-- Tabla para pedidos/mejoras del sistema
+
+CREATE TABLE IF NOT EXISTS tickets (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  priority TEXT DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
+  status TEXT DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'done')),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Admin: acceso total
+CREATE POLICY "Admin can manage tickets"
+  ON tickets FOR ALL
+  USING (auth.uid() IS NOT NULL)
+  WITH CHECK (auth.uid() IS NOT NULL);

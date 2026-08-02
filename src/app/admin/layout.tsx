@@ -12,11 +12,13 @@ import {
   Clock,
   LogOut,
   Menu,
-  X
+  X,
+  Ticket
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ToastProvider } from "@/components/toast";
+import { ChatWidget } from "@/components/chat-widget";
 
 export default function AdminLayout({
   children,
@@ -45,6 +47,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
     { label: "Disponibilidad", href: "/admin/availability", icon: Clock },
     { label: "Servicios", href: "/admin/services", icon: Scissors },
     { label: "Clientes", href: "/admin/clients", icon: Users },
+    { label: "Pedidos", href: "/admin/tickets", icon: Ticket },
     { label: "Configuración", href: "/admin/settings", icon: Settings },
   ];
 
@@ -111,6 +114,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
+
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }
