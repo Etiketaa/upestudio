@@ -1,6 +1,18 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+async function getUserWithTimeout(
+  supabase: ReturnType<typeof createServerClient>,
+  timeoutMs = 3000
+) {
+  return Promise.race([
+    supabase.auth.getUser(),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Supabase getUser timeout")), timeoutMs)
+    ),
+  ]);
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
@@ -25,9 +37,14 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const result = await getUserWithTimeout(supabase);
+    user = (result as any).data?.user ?? null;
+  } catch {
+    // Si falla o tarda, permitir acceso al login sin sesión
+    user = null;
+  }
 
   // Proteger rutas de admin
   if (
